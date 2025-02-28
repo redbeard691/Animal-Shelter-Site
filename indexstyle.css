@@ -1,12 +1,16 @@
+#herophoto
+{
+    
+}
 
 article img
 {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
 }
 
 article
 {
-    border-style: solid;
-    background-color: bisque;
+    padding: 10px;
+    background-color:rgb(246, 244, 244);
 }
