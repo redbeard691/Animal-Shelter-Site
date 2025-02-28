@@ -10,8 +10,34 @@
 <body>
     <app-header></app-header>
     <div class="container mt-5">
-        <h1>User settings page</h1>
-        <p>Content goes here...</p>
+        <h1>Settings</h1>
+        <div class="row">
+            <div class="col">
+                <label class="row" for="username">User Name</label>
+                <input class="row" type="text" id="username" name="username">
+            </div>
+            <div class="col">
+                <label class="row" for="email">Email</label>
+                <input class="row" type="text" id="email" name="email">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="row" for="password">Password</label>
+                <input class="row" type="text" id="Password" name="Password">
+            </div>
+        </div>
+        
+        <br> 
+        <img src="../../images/Portrait_Placeholder.png" class="row img-thumbnail" style="height: 200px; width:200px;">
+        <br>
+
+        <button type="button" class="btn btn-primary row">Select Image</button><br><br>
+
+        <div class="row">
+            <button type="button" class="btn btn-secondary col">Cancel</button>
+            <button type="button" class="btn btn-primary col">Save Changes</button> 
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
