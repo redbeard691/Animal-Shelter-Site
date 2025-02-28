@@ -1,6 +1,6 @@
-#herophoto
+#mainphoto
 {
-    
+    height: 500px;
 }
 
 article img
@@ -12,5 +12,4 @@ article img
 article
 {
     padding: 10px;
-    background-color:rgb(246, 244, 244);
 }
