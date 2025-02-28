@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--Heres a link to the google page on doing a search widget-->
+    <!--https://developers.google.com/cloud-search/docs/guides/search-widget-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CritterCrew - Search</title>
@@ -10,8 +12,42 @@
 <body>
     <app-header></app-header>
     <div class="container mt-5">
-        <h1>Site search page</h1>
-        <p>Content goes here...</p>
+        <h1>Search</h1>
+        <div>
+            <input type = "text" placeholder="What do you want to search for?" style = "width:100%">
+            <button type="button" class="btn btn-secondary">Search</button>
+            <h4>Results:</h4>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="panel panel-default border">
+                    <div class="panel-heading">
+                        <h3>First result</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>This is the first result.</p>
+                    </div>
+                </div>
+                <div class="panel panel-default border">
+                    <div class="panel-heading">
+                        <h3>Second result</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>This is the second result.</p>
+                    </div>
+                </div>
+                <div class="panel panel-default border">
+                    <div class="panel-heading">
+                        <h3>Third result</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>This is the third result</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
