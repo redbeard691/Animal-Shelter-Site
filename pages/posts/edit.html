@@ -40,8 +40,15 @@
                 </div>
 
                 <div class="input-group">
-                    <span class="input-group-text">Species:</span>
-                    <input type="text" class="form-control" id="pet-species">
+                    <label class="input-group-text" for="pet-type">Type:</label>
+                    <select name="Status" id="pet-type" class="form-select">
+                        <option selected value="Any">Any</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Lizard">Lizard</option>
+                        <option value="Bird">Bird</option>
+                        <option value="Other">Other</option>
+                    </select>
                 </div>
 
                 <div class="input-group">
@@ -72,7 +79,7 @@
             <div class="row mx-0 mt-3">
                 <div class="form-text" id="tag-help">
                     Add tags for physical features such as color, size, and coat length to improve search results.
-                    <br>Press enter between each tag to add it to the list.
+                    <br>Press enter after each tag to add it to the list.
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">Tags</span>
