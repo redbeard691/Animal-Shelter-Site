@@ -10,21 +10,27 @@
 <body>
     <app-header></app-header>
     <div class="container mt-5">
-        <h1>Settings</h1>
-        <div class="row">
-            <div class="col">
+        <h1 class="text-center">Settings</h1>
+        <div class="row  border-bottom p-2">
+            <div class="col-sm-6">
                 <label class="row" for="username">User Name</label>
                 <input class="row" type="text" id="username" name="username">
             </div>
-            <div class="col">
+            <div class="col-sm-6">
+                <label class="row" for="password">Password</label>
+                <input class="row" type="text" id="Password" name="Password">
+                
+            </div>
+
+            <div class="w-100 d-none d-md-block"></div>
+
+            <div class="col-sm-6">
                 <label class="row" for="email">Email</label>
                 <input class="row" type="text" id="email" name="email">
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label class="row" for="password">Password</label>
-                <input class="row" type="text" id="Password" name="Password">
+
+            <div class=" row form-text" id="tag-help">
+                Enter the new information you would like to change then click Save Changes when done.
             </div>
         </div>
         
@@ -34,9 +40,9 @@
 
         <button type="button" class="btn btn-primary row">Select Image</button><br><br>
 
-        <div class="row">
-            <button type="button" class="btn btn-secondary col">Cancel</button>
-            <button type="button" class="btn btn-primary col">Save Changes</button> 
+        <div class="row gap-2 justify-content-end border-top p-2">
+            <button type="button" class="btn btn-secondary col-sm-2">Cancel</button>
+            <button type="button" class="btn btn-primary col-sm-2">Save Changes</button> 
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
