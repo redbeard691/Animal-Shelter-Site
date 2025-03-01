@@ -69,18 +69,29 @@
             <div class="col row" id="poster-info">
                 <div class="col row">
                     <div class="col-auto">
-                        <img src="/images/stickman.png" class="img-thumbnail rounded-circle" alt="" id="user-pic">
+                        <a href="/pages/account/profile.html">
+                            <img src="/images/Portrait_Placeholder.png" class="img-thumbnail rounded-circle" alt="" id="user-pic">
+                        </a>
                     </div>
                     <div class="col-auto align-content-center">
-                        <h6>Posted by</h6>
-                        <p class="m-0">Username</p>
+                        <a href="/pages/account/profile.html" class="text-decoration-none text-body">
+                            <h6>Posted by</h6>
+                            <p class="m-0">Username</p>
+                        </a>
                     </div>
                     <div class="col align-content-center">
-                        <button type="button" class="btn btn-primary">Send Message</button>
+                        <a href="/pages/messages/compose.html">
+                            <button type="button" class="btn btn-primary">Send Message</button>
+                        </a>
                     </div>
                 </div>
-                <div class="col-auto align-content-center p-0">
+                <div class="col-auto align-content-center p-0 me-2">
                         <button type="button" class="btn btn-outline-danger">Report Post</button>
+                </div>
+                <div class="col-auto align-content-center p-0">
+                    <a href="edit.html">
+                        <button type="button" class="btn btn-secondary">Edit Post</button>
+                    </a>
                 </div>
             </div>
         </div>
