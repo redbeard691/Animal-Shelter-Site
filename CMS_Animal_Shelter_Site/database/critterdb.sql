@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS USER ( username TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL );
+
+CREATE TABLE IF NOT EXISTS PETS ( petseid TEXT PRIMARY KEY NOT NULL, petname TEXT NOT NULL, semester TEXT NOT NULL, coursedesc TEXT, enrollnum INTEGER NOT NULL, enteredby TEXT NOT NULL );
+
+DELETE FROM USER;
+
+DELETE FROM PETS;
+
+INSERT INTO USER VALUES ('nick', '1234');
+
+INSERT INTO PETS VALUES ('CPTS_489', 'Web Development', 'Spring', 'course about web development', 80, 'subu');

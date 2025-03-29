@@ -45,6 +45,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // For Header path
 app.locals.includePath = path.join(__dirname, 'views');
 
+// Express-Session
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'wsu489',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
+
 // Our Pages
 app.use('/', indexRouter);
 app.use('/template/header',headerRouter);
