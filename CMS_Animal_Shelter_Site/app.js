@@ -3,6 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session')
+const sequelize = require('./db')
+
+// Models
+const User = require('./model/User')
+
 
 // Routes ----------------------------------
 var indexRouter = require('./routes/index');
@@ -19,6 +25,7 @@ var loginRouter = require('./routes/account/login');
 var profileRouter = require('./routes/account/profile');
 var settingsRouter = require('./routes/account/settings');
 var signupRouter = require('./routes/account/signup');
+var logoutRouter = require('./routes/account/logout');
 // Messages Routes
 var composeRouter = require('./routes/messages/compose');
 var inboxRouter = require('./routes/messages/inbox');
@@ -51,11 +58,15 @@ app.use(session({
   secret: 'wsu489',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false }
+  cookie: { secure: false },
+  loggedin: false
 }))
 
 // Our Pages
 app.use('/', indexRouter);
+
+//app.delete('/logout', logoutRouter);
+
 app.use('/template/header',headerRouter);
 // Info
 app.use('/pages/info/about',aboutRouter);
@@ -76,12 +87,20 @@ app.use('/pages/messages/inbox',inboxRouter);
 app.use('/pages/posts/demo_listings',demo_listingRouter);
 app.use('/pages/posts/edit',editRouter);
 app.use('/pages/posts/listings',listingsRouter);
-app.use('/pages/posts/views',viewRouter);
+app.use('/pages/posts/view',viewRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+// To keep account if user is logged in or not.
+//app.use(function(err, req, res, next) {
+  //res.locals.session = req.session;
+  //next();
+//});
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -93,5 +112,15 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+async function setup() {
+  const subu = await User.create({ username: "nick", password: "1234" });
+  console.log("nick instance created...")
+}
+
+sequelize.sync({ force: true }).then(()=>{
+  console.log("Sequelize Sync Completed...");
+  setup().then(()=> console.log("User setup complete"))
+})
 
 module.exports = app;

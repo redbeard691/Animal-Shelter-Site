@@ -1,20 +1,37 @@
-const { getRow } = require('../db')
+const sequelize = require('../db')
+const { Model, DataTypes } = require('sequelize')
 
-class User{
-    constructor(username, password){
-        this.username = username
-        this.password = password
-    }
+class User extends Model {
+
     static async findUser(username, password){
-        let sql = `SELECT * FROM USER WHERE username=? and password=?`;
         try {
-            let user = await getRow(sql,[username, password])
-            return user ? user : null
+            const user = await User.findByPk(username)
+            if(user && user.password === password){
+                return user
+            }else{
+                return null
+            }
         } catch (error) {
             console.log(error)
             return null
         }
     }
+
 }
+
+User.init({
+  username: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    allowNull: false
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+}, {
+  sequelize, 
+  modelName: 'User'
+});
 
 module.exports = User

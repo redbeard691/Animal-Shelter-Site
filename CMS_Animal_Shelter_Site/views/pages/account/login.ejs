@@ -12,15 +12,22 @@
      <%- include(includePath + '/template/header') %>
     <div class="container-sm" id="content">
         <h1 class="text-center mt-5">Log In</h1>
-        <form class="mb-2">
+
+        <% if (msg) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= msg %>
+            </div>
+        <% } %>
+
+        <form class="mb-2" action = "/pages/account/login/login" method="post">
             <div class="mb-3">
-                <label for="input-email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="input-email">
+                <label for="input-username" class="form-label">Username</label>
+                <input type="username" class="form-control" id="input-username" name="username">
             </div>
 
             <div class="mb-3">
                 <label for="input-password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="input-password">
+                <input type="password" class="form-control" id="input-password" name="password">
             </div>
 
             <div class="mb-3 form-check">
