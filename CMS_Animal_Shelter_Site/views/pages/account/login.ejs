@@ -13,13 +13,13 @@
     <div class="container-sm" id="content">
         <h1 class="text-center mt-5">Log In</h1>
 
-        <% if (msg) { %>
+        <% if (locals.msg) { %>
             <div class="alert alert-danger" role="alert">
                 <%= msg %>
             </div>
         <% } %>
 
-        <form class="mb-2" action = "/pages/account/login/login" method="post">
+        <form class="mb-2" action = "/account/login" method="post">
             <div class="mb-3">
                 <label for="input-username" class="form-label">Username</label>
                 <input type="username" class="form-control" id="input-username" name="username">

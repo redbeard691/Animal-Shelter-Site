@@ -21,11 +21,7 @@ var searchRouter = require('./routes/info/search');
 var shelterRouter = require('./routes/info/shelter');
 var sheltermapRouter = require('./routes/info/sheltermap');
 // Account Routes
-var loginRouter = require('./routes/account/login');
-var profileRouter = require('./routes/account/profile');
-var settingsRouter = require('./routes/account/settings');
-var signupRouter = require('./routes/account/signup');
-var logoutRouter = require('./routes/account/logout');
+var accountRouter = require('./routes/account')
 // Messages Routes
 var composeRouter = require('./routes/messages/compose');
 var inboxRouter = require('./routes/messages/inbox');
@@ -62,10 +58,15 @@ app.use(session({
   loggedin: false
 }))
 
+// Middleware that allows all templates to access login status & user info.
+app.use((req, res, next) => {
+  res.locals.loggedin = req.session.loggedin;
+  res.locals.user = req.session.user;
+  next()
+})
+
 // Our Pages
 app.use('/', indexRouter);
-
-//app.delete('/logout', logoutRouter);
 
 app.use('/template/header',headerRouter);
 // Info
@@ -76,10 +77,7 @@ app.use('/pages/info/search',searchRouter);
 app.use('/pages/info/shelter',shelterRouter);
 app.use('/pages/info/sheltermap',sheltermapRouter);
 // Account
-app.use('/pages/account/login',loginRouter);
-app.use('/pages/account/profile',profileRouter);
-app.use('/pages/account/settings',settingsRouter);
-app.use('/pages/account/signup',signupRouter);
+app.use('/account', accountRouter);
 // Message
 app.use('/pages/messages/compose',composeRouter);
 app.use('/pages/messages/inbox',inboxRouter);
@@ -93,12 +91,6 @@ app.use('/pages/posts/view',viewRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-// To keep account if user is logged in or not.
-//app.use(function(err, req, res, next) {
-  //res.locals.session = req.session;
-  //next();
-//});
 
 
 
