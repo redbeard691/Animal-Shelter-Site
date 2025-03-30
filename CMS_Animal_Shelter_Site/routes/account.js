@@ -56,14 +56,14 @@ router.post('/login', async (req, res, next) => {
     const user = await User.findUser(req.body.username, req.body.password)
     
     if(user!== null){
-        console.log(`Login successful for account ${user.username}`);
+        console.log(`Login successful for account "${user.username}"`);
 
         req.session.loggedin = true
         req.session.user = user;
 
         res.redirect("/account/profile");
     } else {
-        console.log(`Login failed for account ${req.body.username}`);
+        console.log(`Login failed for account "${req.body.username}"`);
         res.render('pages/account/login', {msg: "Invalid username or password."});
     }
 });
@@ -72,10 +72,25 @@ router.get('/signup', (req, res, next) => {
     res.render('pages/account/signup')
 });
 
-router.post('/signup', (req, res, next) => {
-    // Attempt to create a new user with the provided information.
-    // If successful, create session & redirect to profile page.
-    // Otherwise, redirect to signup page with error message.
+router.post('/signup', async (req, res, next) => {
+    try {
+        const user = await User.create({
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email
+        });
+        console.log(`Successfully created account "${user.username}"`)
+
+        req.session.loggedin = true
+        req.session.user = user;
+        
+        res.redirect('/account/profile')
+    } catch (err) {
+        const msg = (err.message === "Validation error") ? "Username already taken." : "Something went wrong. Please try again later.";
+
+        console.error(`Could not create account "${req.body.username}": ${err}`)
+        res.render('pages/account/signup', {msg: msg})
+    }
 });
 
 

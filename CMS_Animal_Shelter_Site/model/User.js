@@ -16,7 +16,6 @@ class User extends Model {
             return null
         }
     }
-
 }
 
 User.init({
@@ -26,6 +25,10 @@ User.init({
     allowNull: false
   },
   password: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  email: {
     type: DataTypes.STRING,
     allowNull: false
   }

@@ -106,13 +106,13 @@ app.use(function(err, req, res, next) {
 });
 
 async function setup() {
-  const subu = await User.create({ username: "nick", password: "1234" });
-  console.log("nick instance created...")
+  await User.create({ username: "admin", password: "1234", email:"admin@example.com" });
+  console.log("Created admin account.")
 }
 
 sequelize.sync({ force: true }).then(()=>{
   console.log("Sequelize Sync Completed...");
-  setup().then(()=> console.log("User setup complete"))
+  setup().then()
 })
 
 module.exports = app;
