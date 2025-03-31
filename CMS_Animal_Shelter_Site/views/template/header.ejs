@@ -35,7 +35,17 @@
                     <img src="/images/search_light.svg" alt="Search" width="28">
                 </a>
             </ul>
-            <a href="/pages/account/login"><button type="button" class="btn btn-primary">Log In / Sign Up</button></a>
+
+            <% if (!locals.loggedin) { %>
+                <a href="/account/login"><button type="button" class="btn btn-primary">Log In / Sign Up</button></a>
+            <% } else { %>
+                <a href="/account/profile"><button type="button" class="btn btn-primary">Profile</button></a>
+                <form action="/account/logout" method="post">
+                    <button type="submit" class="btn btn-secondary ms-2">Log Out</button>
+                </form>
+            <% } %>
+
+           
         </div>
     </div>
 </nav>

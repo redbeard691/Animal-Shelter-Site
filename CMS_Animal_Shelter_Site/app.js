@@ -3,6 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const session = require('express-session')
+const sequelize = require('./db')
+
+// Models
+const User = require('./model/User')
+
 
 // Routes ----------------------------------
 var indexRouter = require('./routes/index');
@@ -15,10 +21,7 @@ var searchRouter = require('./routes/info/search');
 var shelterRouter = require('./routes/info/shelter');
 var sheltermapRouter = require('./routes/info/sheltermap');
 // Account Routes
-var loginRouter = require('./routes/account/login');
-var profileRouter = require('./routes/account/profile');
-var settingsRouter = require('./routes/account/settings');
-var signupRouter = require('./routes/account/signup');
+var accountRouter = require('./routes/account')
 // Messages Routes
 var composeRouter = require('./routes/messages/compose');
 var inboxRouter = require('./routes/messages/inbox');
@@ -45,8 +48,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 // For Header path
 app.locals.includePath = path.join(__dirname, 'views');
 
+// Express-Session
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: 'wsu489',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false },
+  loggedin: false
+}))
+
+// Middleware that allows all templates to access login status & user info.
+app.use((req, res, next) => {
+  res.locals.loggedin = req.session.loggedin;
+  res.locals.currentuser = req.session.user;
+  next()
+})
+
 // Our Pages
 app.use('/', indexRouter);
+
 app.use('/template/header',headerRouter);
 // Info
 app.use('/pages/info/about',aboutRouter);
@@ -56,10 +77,7 @@ app.use('/pages/info/search',searchRouter);
 app.use('/pages/info/shelter',shelterRouter);
 app.use('/pages/info/sheltermap',sheltermapRouter);
 // Account
-app.use('/pages/account/login',loginRouter);
-app.use('/pages/account/profile',profileRouter);
-app.use('/pages/account/settings',settingsRouter);
-app.use('/pages/account/signup',signupRouter);
+app.use('/account', accountRouter);
 // Message
 app.use('/pages/messages/compose',composeRouter);
 app.use('/pages/messages/inbox',inboxRouter);
@@ -67,12 +85,14 @@ app.use('/pages/messages/inbox',inboxRouter);
 app.use('/pages/posts/demo_listings',demo_listingRouter);
 app.use('/pages/posts/edit',editRouter);
 app.use('/pages/posts/listings',listingsRouter);
-app.use('/pages/posts/views',viewRouter);
+app.use('/pages/posts/view',viewRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -84,5 +104,15 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+async function setup() {
+  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true });
+  console.log("Created admin account.")
+}
+
+sequelize.sync({ force: true }).then(()=>{
+  console.log("Sequelize Sync Completed...");
+  setup().then()
+})
 
 module.exports = app;
