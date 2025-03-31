@@ -61,7 +61,7 @@ app.use(session({
 // Middleware that allows all templates to access login status & user info.
 app.use((req, res, next) => {
   res.locals.loggedin = req.session.loggedin;
-  res.locals.user = req.session.user;
+  res.locals.currentuser = req.session.user;
   next()
 })
 
@@ -106,7 +106,7 @@ app.use(function(err, req, res, next) {
 });
 
 async function setup() {
-  await User.create({ username: "admin", password: "1234", email:"admin@example.com" });
+  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true });
   console.log("Created admin account.")
 }
 

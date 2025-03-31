@@ -11,9 +11,10 @@
 <body>
      <!--Including navigation bar-->
      <%- include(includePath + '/template/header') %>
+
     <div class="container mt-5">
         <h1 class="text-center">Account Settings</h1>
-        <form class="row">
+        <form class="row" action="/account/settings" method="post">
             <p class="form-text text-center">
                 Enter the new information you would like to change then click Save Changes when done.
             </p>
@@ -21,24 +22,24 @@
             <div class="col">
                 <div class="row gy-2 px-2 pb-3">
                     <label for="profile-pic">Profile Picture</label>
-                    <input type="file" class="form-control" id="profile-pic">
+                    <input type="file" class="form-control" id="profile-pic" name="new_profile_pic">
                     <div class="text-center">
                         Preview:
                         <img src="/images/logo.jpg" class="img-fluid img-thumbnail" alt="" id="image-preview">
                     </div>
                     
-            </div>
+                </div>
             </div>
 
             <div class="col">
                 <div class="mb-3">
-                    <label for="input-username-new" class="form-label">New Username</label>
-                    <input type="text" class="form-control" id="input-username-new">
+                    <label for="input-email-new" class="form-label">New Email</label>
+                    <input type="email" class="form-control" id="input-email-new" name="new_email">
                 </div>
     
                 <div class="mb-3">
                     <label for="input-password-new" class="form-label">New Password</label>
-                    <input type="password" class="form-control" id="input-password-new">
+                    <input type="password" class="form-control" id="input-password-new" name="new_password">
                 </div>
     
                 <div class="mb-3">
@@ -53,6 +54,7 @@
             </div>
         </form>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
