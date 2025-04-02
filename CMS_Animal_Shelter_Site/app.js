@@ -8,6 +8,7 @@ const sequelize = require('./db')
 
 // Models
 const User = require('./model/User')
+const Message = require('./model/Message')
 
 
 // Routes ----------------------------------
@@ -23,8 +24,7 @@ var sheltermapRouter = require('./routes/info/sheltermap');
 // Account Routes
 var accountRouter = require('./routes/account')
 // Messages Routes
-var composeRouter = require('./routes/messages/compose');
-var inboxRouter = require('./routes/messages/inbox');
+var messageRouter = require('./routes/messages')
 // Post Routes
 var demo_listingRouter = require('./routes/posts/demo_listings');
 var editRouter = require('./routes/posts/edit');
@@ -79,8 +79,7 @@ app.use('/pages/info/sheltermap',sheltermapRouter);
 // Account
 app.use('/account', accountRouter);
 // Message
-app.use('/pages/messages/compose',composeRouter);
-app.use('/pages/messages/inbox',inboxRouter);
+app.use('/messages', messageRouter)
 // Post
 app.use('/pages/posts/demo_listings',demo_listingRouter);
 app.use('/pages/posts/edit',editRouter);
@@ -108,6 +107,11 @@ app.use(function(err, req, res, next) {
 async function setup() {
   await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true });
   console.log("Created admin account.")
+  await User.create({ username: "test", password: "test", email:"test@example.com"})
+  console.log("Created test user account.")
+
+  await Message.create({ sender: "test", recipient: "admin", subject: "Some subject", contents: "The message contents go here if they are not too long."})
+  console.log("Created test message.")
 }
 
 sequelize.sync({ force: true }).then(()=>{
