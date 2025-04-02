@@ -25,14 +25,14 @@
 
                                 <% if(locals.currentuser) { %>
                                     <% if(locals.user.username === locals.currentuser.username) {%>
-                                        <a href="/pages/messages/inbox.html">
+                                        <a href="/messages/inbox">
                                             <button type="button" class="btn btn-primary m-1">View Inbox</button>
                                         </a>
                                         <a href="/account/settings">
                                             <button type="button" class="btn btn-secondary m-1">Account Settings</button>
                                         </a>
                                     <% } else { %>
-                                        <a href="/pages/messages/compose.html">
+                                        <a href=<%- `/messages/compose?recipient=${locals.user.username}` %>>
                                             <button type="button" class="btn btn-primary m-1">Send Message</button>
                                         </a>
                                         <button type="button" class="btn btn-outline-danger m-1">Report User</button>

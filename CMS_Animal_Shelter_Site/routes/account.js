@@ -41,6 +41,7 @@ router.get('/settings', (req, res, next) => {
 });
 
 router.post('/settings', async (req, res, next) => {
+    // TODO: Ensure the user is editing their own settings.
     if (req.session.loggedin) {
         // Need to get instance directly from db in order to update it.
         // Can't just use the user stored in the session.

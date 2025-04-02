@@ -12,25 +12,29 @@
      <%- include(includePath + '/template/header') %>
     <div class="container mt-5" id="contents">
         <h1 class="text-center">Compose a message</h1>
-        <form class="row gy-2 gx-0">
+        <form action="/messages/compose" method="post" class="row gy-2 gx-0">
             <!--Recipient-->
             <div class="input-group">
                 <span class="input-group-text">To:</span>
-                <input type="text" class="form-control" id="recipient">
+                <input type="text" class="form-control" id="recipient" name="recipient" required
+                    <% if(locals.recipient) { %>
+                        value=<%- locals.recipient %>
+                    <% } %>
+                >
             </div>
 
             <!--Subject-->
             <div class="input-group">
                 <span class="input-group-text">Subject:</span>
-                <input type="text" class="form-control" id="subject">
+                <input type="text" class="form-control" id="subject" name="subject" required>
             </div>
 
             <!--Contents-->
-            <textarea class="form-control" id="message" rows="10" placeholder="Write your message here"></textarea>
+            <textarea class="form-control" id="contents" name="contents" rows="10" placeholder="Write your message here" required></textarea>
 
             <!--Buttons-->
             <div class="btn-toolbar justify-content-between">
-                <button type="reset" class="btn btn-secondary">Cancel</button>
+                <button onclick="history.back()" class="btn btn-secondary">Cancel</button>
                 <button type="submit" class="btn btn-primary">Send</button>
             </div>
         </form>
