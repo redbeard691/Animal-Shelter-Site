@@ -21,15 +21,10 @@ var bulletinRouter = require('./routes/info/bulletins');
 var searchRouter = require('./routes/info/search');
 var shelterRouter = require('./routes/info/shelter');
 var sheltermapRouter = require('./routes/info/sheltermap');
-// Account Routes
+
 var accountRouter = require('./routes/account')
-// Messages Routes
 var messageRouter = require('./routes/messages')
-// Post Routes
-var demo_listingRouter = require('./routes/posts/demo_listings');
-var editRouter = require('./routes/posts/edit');
-var listingsRouter = require('./routes/posts/listings');
-var viewRouter = require('./routes/posts/views');
+var postRouter = require('./routes/posts')
 
 
 var app = express();
@@ -65,7 +60,7 @@ app.use((req, res, next) => {
   next()
 })
 
-// Our Pages
+// Routers
 app.use('/', indexRouter);
 
 app.use('/template/header',headerRouter);
@@ -76,15 +71,10 @@ app.use('/pages/info/bulletins',bulletinRouter);
 app.use('/pages/info/search',searchRouter);
 app.use('/pages/info/shelter',shelterRouter);
 app.use('/pages/info/sheltermap',sheltermapRouter);
-// Account
+
 app.use('/account', accountRouter);
-// Message
 app.use('/messages', messageRouter)
-// Post
-app.use('/pages/posts/demo_listings',demo_listingRouter);
-app.use('/pages/posts/edit',editRouter);
-app.use('/pages/posts/listings',listingsRouter);
-app.use('/pages/posts/view',viewRouter);
+app.use('/posts', postRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
