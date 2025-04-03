@@ -51,8 +51,11 @@ router.post('/create', async (req, res, next) => {
 router.get('/:postId', async (req, res, next) => {
     try {
         const post = await Post.findByPk(req.params.postId)
+        const tags = await Tag.findAll({ where: { PostId: post.id } })
+        
         if (post) {
             res.locals.post = post
+            res.locals.tags = tags
             res.render('pages/posts/view')
         } else {
             res.status(404).send("Requested post could not be found.")
@@ -95,15 +98,19 @@ router.post('/:postId/edit', async (req, res, next) => {
                 tags.push(tag)
             }
 
-            post.status= req.body.status
-            post.name= req.body.name
-            post.type= req.body.type
-            post.city= req.body.city
-            post.state= req.body.state
-            post.description= req.body.description
-            post.Tags= tags
-
-            post.save()
+            await post.update({
+                author: req.session.user.username,
+                status: req.body.status,
+                name: req.body.name,
+                type: req.body.type,
+                city: req.body.city,
+                state: req.body.state,
+                description: req.body.description,
+                Tags: tags
+            },
+            {
+                include: [Tag]
+            })
 
             res.redirect(`/posts/${req.params.postId}`)
         } catch (error) {

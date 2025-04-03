@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="/stylesheets/posts/view.css">
 </head>
 <body>
-     <!--Including navigation bar-->
-     <%- include(includePath + '/template/header') %>
+    <!--Including navigation bar-->
+    <%- include(includePath + '/template/header') %>
+
     <div class="container mt-5" id="content">
         <!--Pet Info-->
         <div class="row">
@@ -19,23 +20,23 @@
                 <table class="table">
                     <tr>
                         <th>Status:</th>
-                        <td id="pet-status">Lost</td>
+                        <td id="pet-status"><%= locals.post.status %></td>
                     </tr>
                     <tr>
                         <th>Name:</th>
-                        <td id="pet-name">Pancake</td>
+                        <td id="pet-name"><%= locals.post.name %></td>
                     </tr>
                     <tr>
                         <th>Type:</th>
-                        <td id="pet-type">Cat</td>
+                        <td id="pet-type"><%= locals.post.type %></td>
                     </tr>
                     <tr>
                         <th>Location:</th>
-                        <td id="pet-location">Pullman, WA</td>
+                        <td id="pet-location"><%= locals.post.city %>, <%= locals.post.state %></td>
                     </tr>
                     <tr>
                         <th>Last updated:</th>
-                        <td id="pet-date">2/26/2025</td>
+                        <td id="pet-date"><%= locals.post.updatedAt %></td>
                     </tr>
                 </table>
             </div>
@@ -46,7 +47,7 @@
             <div class="col-9 border rounded p-2">
                 <h3 class="text-center">Description</h3>
                 <p id="pet-description border border-primary">
-                    Pet description goes here.
+                    <%= locals.post.description %>
                 </p>
             </div>
         </div>
@@ -56,46 +57,53 @@
             <div class="col-9 border rounded p-2">
                 <h3 class="text-center">Tags</h3>
                 <ul class="list-inline list-unstyled text-center" id="tag-list">
-                    <li class="list-inline-item badge rounded-pill bg-secondary">Orange</li>
-                    <li class="list-inline-item badge rounded-pill bg-secondary">Tabby</li>
-                    <li class="list-inline-item badge rounded-pill bg-secondary">Short Hair</li>
-                    <li class="list-inline-item badge rounded-pill bg-secondary">Green Eyes</li>
-                    <li class="list-inline-item badge rounded-pill bg-secondary">Red collar</li>
+                    <% if (locals.tags) { %>
+                        <% const tags = locals.tags %>
+                        <% for (var i = 0; i < tags.length; i++) { %>
+                            <li class="list-inline-item badge rounded-pill bg-secondary"><%= tags[i].name %></li>
+                        <% } %>
+                    <% } %>
                 </ul>
             </div>
         </div>
 
         <!--Buttons-->
-        <div class="row mt-3 justify-content-between">
-            <div class="col row" id="poster-info">
-                <div class="col row">
-                    <div class="col-auto">
-                        <a href="/pages/account/profile.html">
-                            <img src="/images/Portrait_Placeholder.png" class="img-thumbnail rounded-circle" alt="" id="user-pic">
-                        </a>
-                    </div>
-                    <div class="col-auto align-content-center">
-                        <a href="/pages/account/profile.html" class="text-decoration-none text-body">
-                            <h6>Posted by</h6>
-                            <p class="m-0">Username</p>
-                        </a>
-                    </div>
-                    <div class="col align-content-center">
-                        <a href="/pages/messages/compose.html">
-                            <button type="button" class="btn btn-primary">Send Message</button>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-auto align-content-center p-0 me-2">
-                        <button type="button" class="btn btn-outline-danger">Report Post</button>
-                </div>
-                <div class="col-auto align-content-center p-0">
-                    <a href="edit.html">
+        <% if(locals.currentuser && locals.currentuser.username === locals.post.author) { %>
+            <div class="row mt-3 justify-content-center">
+                <div class="col-auto">
+                    <a href=<%- `${locals.post.id}/edit` %>>
                         <button type="button" class="btn btn-secondary">Edit Post</button>
                     </a>
                 </div>
             </div>
-        </div>
+        <% } else { %>
+            <div class="row mt-3 justify-content-between">
+                <div class="col row" id="poster-info">
+                    <div class="col row">
+                        <div class="col-auto">
+                            <a href=<%= `/account/profile/${locals.post.author}` %>>
+                                <img src="/images/Portrait_Placeholder.png" class="img-thumbnail rounded-circle" alt="" id="user-pic">
+                            </a>
+                        </div>
+                        <div class="col-auto align-content-center">
+                            <a href=<%= `/account/profile/${locals.post.author}` %> class="text-decoration-none text-body">
+                                <h6>Posted by</h6>
+                                <p class="m-0">Username</p>
+                            </a>
+                        </div>
+                        <div class="col align-content-center">
+                            <a href=<%= `/messages/compose?recipient=${locals.post.author}`%>>
+                                <button type="button" class="btn btn-primary">Send Message</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-auto align-content-center p-0 me-2">
+                            <button type="button" class="btn btn-outline-danger">Report Post</button>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

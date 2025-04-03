@@ -25,42 +25,43 @@
     <%- include(includePath + '/template/header' ) %>
 
     <div class="container mt-5 col-lg-6">
-        <h1 class="text-center">Create Post</h1>
+        <h1 class="text-center">Edit Post</h1>
         <form action="/posts/create" method="post">
             <div class="row gy-2">
                 <div class="input-group">
                     <span class="input-group-text">Status:</span>
                     <select class="form-select" name="status" id="pet-status">
                         <option value="Lost">Lost</option>
-                        <option value="Lost">Found</option>
+                        <option value="Found">Found</option>
+                        <option value="Returned">Returned</option>
                     </select>
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-text">Name:</span>
-                    <input type="text" class="form-control" name="name" id="pet-name">
+                    <input type="text" class="form-control" name="name" id="pet-name" value=<%= locals.post.name %>>
                 </div>
 
                 <div class="input-group">
                     <label class="input-group-text" for="pet-type">Type:</label>
                     <select id="pet-type" name="type" class="form-select" required>
                         <option value="" hidden>Select...</option>
-                        <option value="Dog">Dog</option>
-                        <option value="Cat">Cat</option>
-                        <option value="Lizard">Lizard</option>
-                        <option value="Bird">Bird</option>
-                        <option value="Other">Other</option>
+                        <option value="Dog" <%= locals.post.type === "Dog" ? 'selected' : '' %>>Dog</option>
+                        <option value="Cat" <%= locals.post.type === "Cat" ? 'selected' : '' %>>Cat</option>
+                        <option value="Lizard" <%= locals.post.type === "Lizard" ? 'selected' : '' %>>Lizard</option>
+                        <option value="Bird" <%= locals.post.type === "Bird" ? 'selected' : '' %>>Bird</option>
+                        <option value="Other" <%= locals.post.type === "Other" ? 'selected' : '' %>>Other</option>
                     </select>
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-text">City:</span>
-                    <input type="text" class="form-control" id="pet-city" name="city" required>
+                    <input type="text" class="form-control" id="pet-city" name="city" value=<%= locals.post.city %> required>
                 </div>
 
                 <div class="input-group">
                     <span class="input-group-text">State:</span>
-                    <input type="text" class="form-control" id="pet-state" name="state" required>
+                    <input type="text" class="form-control" id="pet-state" name="state" value=<%= locals.post.state %> required>
                 </div>
             </div>
             <div class="row gy-2 mx-0 mt-3">
@@ -75,7 +76,7 @@
 
             <div class="row mx-0 mt-3">
                 <label for="pet-description" class="form-label">Pet Description</label>
-                <textarea class="form-control" id="pet-description" rows="5" name="description" required></textarea>
+                <textarea class="form-control" id="pet-description" rows="5" name="description" required><%= locals.post.description.trim() %></textarea>
             </div>
 
             <div class="row mx-0 mt-3">
@@ -86,8 +87,8 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">Tags</span>
-                    <div class="tags-input form-control" id="pet-tags" data-name="tags"></div>
-
+                    <div class="tags-input form-control" id="pet-tags" data-name="tags">
+                    </div>
                 </div>
             </div>
 
