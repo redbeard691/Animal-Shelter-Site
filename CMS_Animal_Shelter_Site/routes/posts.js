@@ -6,6 +6,30 @@ router.get('/', (req, res, next) => {
     res.render('pages/posts/listings')
 })
 
+router.get('/search', async (req, res, next) => {
+    try {
+        console.log(req.query)
+
+        const posts = await Post.findAll(
+            {
+                where: req.query,
+                order: [
+                    [ "updatedAt", "DESC" ]
+                ]
+            },
+            {
+                include: [Tag]
+            }
+        )
+
+        res.setHeader('Content-Type', 'application/json');
+        res.end(JSON.stringify(posts));
+    } catch (error) {
+        console.error(error)
+        res.status(500).send("Server error.")
+    }
+})
+
 router.get('/create', (req, res, next) => {
     if (req.session.loggedin) {
         res.render('pages/posts/create')

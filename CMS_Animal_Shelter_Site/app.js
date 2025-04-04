@@ -9,6 +9,7 @@ const sequelize = require('./db')
 // Models
 const User = require('./model/User')
 const Message = require('./model/Message')
+const { Post, Tag } = require('./model/Post')
 
 
 // Routes ----------------------------------
@@ -102,6 +103,34 @@ async function setup() {
 
   await Message.create({ sender: "test", recipient: "admin", subject: "Some subject", contents: "The message contents go here if they are not too long."})
   console.log("Created test message.")
+
+  await Post.create({
+    author: "test",
+    status: "Lost",
+    name: "test Name",
+    type: "Cat",
+    city: "test city",
+    state: "test state",
+    description: "Test description goes here if it is not too long.",
+    Tags: [{ name: "tag1" }, { name: "tag2" }, { name: "orange" }]
+  },
+  {
+    include: [Tag]
+  })
+  await Post.create({
+    author: "admin",
+    status: "Found",
+    name: "Some Dog",
+    type: "Dog",
+    city: "A City",
+    state: "A State",
+    description: "Admin post description",
+    Tags: [{ name: "tag1" }, { name: "brown" }, { name: "lab" }]
+  },
+  {
+    include: [Tag]
+  })
+  console.log("Created test posts.")
 }
 
 sequelize.sync({ force: true }).then(()=>{
