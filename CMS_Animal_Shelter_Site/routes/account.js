@@ -85,17 +85,28 @@ router.get('/login', (req, res, next) => {
 router.post('/login', async (req, res, next) => {
     const user = await User.authenticateUser(req.body.username, req.body.password)
 
-    if (user !== null) {
-        console.log(`Login successful for account "${user.username}"`);
+     {
 
-        req.session.loggedin = true
-        req.session.user = user;
-
-        res.redirect("/account/profile");
-    } else {
-        console.log(`Login failed for account "${req.body.username}"`);
-        res.render('pages/account/login', { msg: "Invalid username or password." });
+        if (user !== null) {
+            if (user.isbanned === false) {
+                console.log(`Login successful for account "${user.username}"`);
+    
+                req.session.loggedin = true;
+                req.session.user = user;
+                console.log(req.session.user);
+                res.redirect("/account/profile");
+            }
+            else {
+                console.log(`Account Banned: "${req.body.username}"`);
+                res.render('pages/account/login', { msg: "User Account is Banned" });
+            }
+        } else {
+            console.log(`Login failed for account "${req.body.username}"`);
+            res.render('pages/account/login', { msg: "Invalid username or password." });
+        }
     }
+   
+    
 });
 
 router.get('/signup', (req, res, next) => {
@@ -122,7 +133,5 @@ router.post('/signup', async (req, res, next) => {
         res.render('pages/account/signup', { msg: msg })
     }
 });
-
-
 
 module.exports = router;

@@ -23,9 +23,10 @@ var searchRouter = require('./routes/info/search');
 var shelterRouter = require('./routes/info/shelter');
 var sheltermapRouter = require('./routes/info/sheltermap');
 
-var accountRouter = require('./routes/account')
-var messageRouter = require('./routes/messages')
-var postRouter = require('./routes/posts')
+var accountRouter = require('./routes/account');
+var messageRouter = require('./routes/messages');
+var postRouter = require('./routes/posts');
+var adminRouter = require('./routes/admin');
 
 
 var app = express();
@@ -74,8 +75,9 @@ app.use('/pages/info/shelter',shelterRouter);
 app.use('/pages/info/sheltermap',sheltermapRouter);
 
 app.use('/account', accountRouter);
-app.use('/messages', messageRouter)
-app.use('/posts', postRouter)
+app.use('/messages', messageRouter);
+app.use('/posts', postRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -100,6 +102,8 @@ async function setup() {
   console.log("Created admin account.")
   await User.create({ username: "test", password: "test", email:"test@example.com"})
   console.log("Created test user account.")
+  await User.create({ username: "nick", password: "1234", email:"nick@example.com"})
+  console.log("Created test user account.")
 
   await Message.create({ sender: "test", recipient: "admin", subject: "Some subject", contents: "The message contents go here if they are not too long."})
   console.log("Created test message.")
@@ -117,10 +121,25 @@ async function setup() {
   {
     include: [Tag]
   })
+
   await Post.create({
     author: "admin",
     status: "Found",
     name: "Some Dog",
+    type: "Dog",
+    city: "A City",
+    state: "A State",
+    description: "Admin post description",
+    Tags: [{ name: "tag1" }, { name: "brown" }, { name: "lab" }]
+  },
+  {
+    include: [Tag]
+  })
+
+  await Post.create({
+    author: "nick",
+    status: "Found",
+    name: "other Dog",
     type: "Dog",
     city: "A City",
     state: "A State",
