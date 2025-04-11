@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../model/User');
+const { Post } = require('../model/Post');
 
 /* Admin Middleware */
 function isAdmin(req, res, next) {
@@ -33,6 +34,29 @@ router.post('/ban-user', isAdmin, async (req, res) => {
     } catch (error) {
         console.error('Error banning user:', error);
         res.status(500).json({ success: false, error: 'Failed to ban user.' });
+    }
+});
+
+router.post('/delete-post', isAdmin, async (req, res) => {
+    const { postId } = req.body;
+
+    try {
+        const deletedRows = await Post.destroy({
+            where: {
+                id: postId // Assuming your primary key for posts is 'id'
+            }
+        });
+
+        if (deletedRows > 0) {
+            console.log(`Post with ID ${postId} deleted successfully.`);
+            res.json({ success: true });
+        } else {
+            console.log(`Post with ID ${postId} not found (during deletion attempt).`);
+            res.status(404).json({ success: false, error: 'Post not found.' });
+        }
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        res.status(500).json({ success: false, error: 'Failed to delete post.' });
     }
 });
 
