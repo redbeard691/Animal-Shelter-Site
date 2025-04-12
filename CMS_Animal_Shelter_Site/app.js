@@ -3,13 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const session = require('express-session')
-const sequelize = require('./db')
+const session = require('express-session');
+const sequelize = require('./db');
 
 // Models
-const User = require('./model/User')
-const Message = require('./model/Message')
-const { Post, Tag } = require('./model/Post')
+const User = require('./model/User');
+const Message = require('./model/Message');
+const { Post, Tag } = require('./model/Post');
 
 
 // Routes ----------------------------------
@@ -106,6 +106,9 @@ async function setup() {
   console.log("Created test user account.")
 
   await Message.create({ sender: "test", recipient: "admin", subject: "Some subject", contents: "The message contents go here if they are not too long."})
+  console.log("Created test message.")
+
+  await Message.create({ sender: "test", recipient: "nick", subject: "Some subject", contents: "This is Offensive Content from Tester!"})
   console.log("Created test message.")
 
   await Post.create({

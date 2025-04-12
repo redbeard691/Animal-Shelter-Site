@@ -7,32 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/account/profile.css">
 
-    <script>
-        function banAccount(userID) {
-            console.log("banAccount function called with:", userID); // Client-side log
-
-            fetch('/admin/ban-user', { // Define a route on your server
-                method: 'POST', // Or 'DELETE', depending on your API design
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username: userID }),
-              })
-              .then(response => response.json())
-              .then(data => {
-                if (data.success) {
-                  alert(`User "${userID}" has been banned.`);
-                  // Optionally, update the UI (e.g., disable the button)
-                } else {
-                  alert(`Error banning user "${userID}": ${data.error || 'Unknown error'}`);
-                }
-              })
-              .catch(error => {
-                console.error('Error banning user:', error);
-                alert('An unexpected error occurred while trying to ban the user.');
-              });
-        }
-    </script>
+    <script src="/javascripts/reportadmin.js"></script>
+    <script src="/javascripts/banaccount.js"></script>
+    
 </head>
 <body>
      <!--Including navigation bar-->
@@ -51,6 +28,7 @@
                             <div class="btn-toolbar justify-content-center">
 
                                 <% if(locals.currentuser) { %>
+
                                     <% if(locals.user.username === locals.currentuser.username) {%>
                                         <a href="/messages/inbox">
                                             <button type="button" class="btn btn-primary m-1">View Inbox</button>
@@ -62,7 +40,7 @@
                                         <a href=<%- `/messages/compose?recipient=${locals.user.username}` %>>
                                             <button type="button" class="btn btn-primary m-1">Send Message</button>
                                         </a>
-                                        <button type="button" class="btn btn-outline-danger m-1">Report User</button>
+                                        <button type="button" class="btn btn-outline-danger m-1" onclick="reportAccount('<%= locals.user.username %>', 'User', 'Investigate user report')">Report User</button>
                                         <% if(locals.currentuser && locals.currentuser.isadmin) { %>
                                             <button type="button" class="btn btn-outline-danger m-1" onclick="banAccount('<%= locals.user.username %>')">Ban User</button>
                                         <% } %>

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../model/User');
+var Message = require('../model/Message')
 const { Post } = require('../model/Post');
 
 /* Admin Middleware */
@@ -15,7 +16,7 @@ function isAdmin(req, res, next) {
     return res.status(403).json({ success: false, error: 'Unauthorized' }); // Send JSON for API
 }
 
-/* Admin Routes */
+/* Banning user logic */
 router.post('/ban-user', isAdmin, async (req, res) => {
     console.log('Handling /admin/ban-user POST request');
     const { username } = req.body;
@@ -37,6 +38,7 @@ router.post('/ban-user', isAdmin, async (req, res) => {
     }
 });
 
+/* Deleting post logic */
 router.post('/delete-post', isAdmin, async (req, res) => {
     const { postId } = req.body;
 
@@ -59,6 +61,8 @@ router.post('/delete-post', isAdmin, async (req, res) => {
         res.status(500).json({ success: false, error: 'Failed to delete post.' });
     }
 });
+
+
 
 // Add other admin-related routes here
 
