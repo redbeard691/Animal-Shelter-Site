@@ -35,6 +35,10 @@ User.init({
   isadmin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  isbanned: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   }
 }, {
   sequelize,
