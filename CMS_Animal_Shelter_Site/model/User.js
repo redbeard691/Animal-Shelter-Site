@@ -32,6 +32,10 @@ User.init({
     type: DataTypes.STRING,
     allowNull: false
   },
+  profilePic: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   isadmin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false

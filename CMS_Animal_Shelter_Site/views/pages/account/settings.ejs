@@ -22,7 +22,9 @@
             <div class="col">
                 <div class="row gy-2 px-2 pb-3">
                     <label for="profile-pic">Profile Picture</label>
-                    <input type="file" class="form-control" id="profile-pic" name="new_profile_pic">
+                    <form action="/profilePic" method="post" enctype="multipart/form-data">
+                        <input type="file" class="form-control" id="profile-pic" name="new_profile_pic">
+                      </form>                      
                     <div class="text-center">
                         Preview:
                         <img src="/images/logo.jpg" class="img-fluid img-thumbnail" alt="" id="image-preview">
