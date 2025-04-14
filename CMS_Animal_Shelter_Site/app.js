@@ -23,10 +23,14 @@ var searchRouter = require('./routes/info/search');
 var shelterRouter = require('./routes/info/shelter');
 var sheltermapRouter = require('./routes/info/sheltermap');
 
-var accountRouter = require('./routes/account');
+var loginRouter = require('./routes/login');
+var signupRouter = require('./routes/signup');
+var logoutRouter = require('./routes/logout');
+var userRouter = require('./routes/user');
 var messageRouter = require('./routes/messages');
 var postRouter = require('./routes/posts');
 var adminRouter = require('./routes/admin');
+var sheltersRouter = require('./routes/shelters');
 
 
 var app = express();
@@ -74,10 +78,14 @@ app.use('/pages/info/search',searchRouter);
 app.use('/pages/info/shelter',shelterRouter);
 app.use('/pages/info/sheltermap',sheltermapRouter);
 
-app.use('/account', accountRouter);
+app.use('/login', loginRouter);
+app.use('/signup', signupRouter);
+app.use('/logout', logoutRouter);
+app.use('/user', userRouter);
 app.use('/messages', messageRouter);
 app.use('/posts', postRouter);
 app.use('/admin', adminRouter);
+app.use('/shelters', sheltersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

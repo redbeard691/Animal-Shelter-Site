@@ -37,10 +37,10 @@
             </ul>
 
             <% if (!locals.loggedin) { %>
-                <a href="/account/login"><button type="button" class="btn btn-primary">Log In / Sign Up</button></a>
+                <a href="/login"><button type="button" class="btn btn-primary">Log In / Sign Up</button></a>
             <% } else { %>
-                <a href="/account/profile"><button type="button" class="btn btn-primary">Profile</button></a>
-                <form action="/account/logout" method="post">
+                <a href="/user"><button type="button" class="btn btn-primary">Profile</button></a>
+                <form action="/logout" method="post">
                     <button type="submit" class="btn btn-secondary ms-2">Log Out</button>
                 </form>
             <% } %>
