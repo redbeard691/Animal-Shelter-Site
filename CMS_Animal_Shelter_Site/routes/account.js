@@ -4,16 +4,29 @@ var User = require('../model/User')
 const multer  = require('multer')
 
 //check multer docs for this on the express website
-const myStorage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, '../public/images')
-    },
-    filename: function (req, file, cb) {
-      const dateRand = Date.now() + "_" + Math.round(Math.random() * 100000)
-      cb(null, file.originalname + '_' + dateRand)
-    }
+// const myStorage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, '../public/images')
+//     },
+//     filename: function (req, file, cb) {
+//       const dateRand = Date.now() + "_" + Math.round(Math.random() * 100000)
+//       cb(null, file.originalname + '_' + dateRand)
+//     }
     
-  })
+//   })
+
+const path = require('path');
+const myStorage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, path.join(__dirname, '../public/images/uploads'));
+  },
+  filename(req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
 
 const upload = multer({ storage: myStorage })
 
@@ -71,7 +84,7 @@ router.post('/settings', upload.single('avatar'), async (req, res, next) => {
             user.password = req.body.new_password
         }
 
-        user.profilePic = req.file.filename
+        user.profilePic = path.join("uploads", req.file.filename)
         await user.save()
 
 
