@@ -98,9 +98,9 @@ app.use(function(err, req, res, next) {
 });
 
 async function setup() {
-  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true, profilePic: "Portrait_Placeholder.png" });
+  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true});
   console.log("Created admin account.")
-  await User.create({ username: "test", password: "test", email:"test@example.com", profilePic: "Portrait_Placeholder.png" })
+  await User.create({ username: "test", password: "test", email:"test@example.com"})
   console.log("Created test user account.")
   await User.create({ username: "nick", password: "1234", email:"nick@example.com"})
   console.log("Created test user account.")

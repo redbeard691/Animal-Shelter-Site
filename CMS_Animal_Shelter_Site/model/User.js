@@ -34,7 +34,7 @@ User.init({
   },
   profilePic: {
     type: DataTypes.STRING,
-    allowNull: false
+    defaultValue: "Portrait_Placeholder.png"
   },
   isadmin: {
     type: DataTypes.BOOLEAN,
