@@ -2,6 +2,23 @@ var express = require('express');
 var router = express.Router();
 var User = require('../model/User')
 var Shelter = require('../model/Shelter')
+const multer  = require('multer')
+const path = require('path');
+
+// Image uploading code
+const myStorage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, path.join(__dirname, '../public/images/uploads'));
+  },
+  filename(req, file, cb) {
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+const upload = multer({ storage: myStorage })
+
 
 router.get('/', (req, res, next) => {
     if (req.session.loggedin) {
@@ -19,7 +36,7 @@ router.get('/settings', (req, res, next) => {
     }
 });
 
-router.post('/settings', async (req, res, next) => {
+router.post('/settings', upload.single('avatar'), async (req, res, next) => {
     // TODO: Ensure the user is editing their own settings.
     if (req.session.loggedin) {
         // Need to get instance directly from db in order to update it.
@@ -54,6 +71,10 @@ router.post('/settings', async (req, res, next) => {
             await user.Shelter.save()
         }
 
+        if (req.file && req.file.filename){
+            user.profilePic = path.join("uploads", req.file.filename)
+        }
+
         await user.save()
 
         req.session.user = user
@@ -63,6 +84,9 @@ router.post('/settings', async (req, res, next) => {
         res.redirect('/login')
     }
 })
+
+//allows the user to upload a file for their profile picture.
+router.post('/profilePic', upload.single('avatar'), function (req, res, next) {})
 
 router.get('/:username', async (req, res, next) => {
     const user = await User.findByPk(req.params.username, {

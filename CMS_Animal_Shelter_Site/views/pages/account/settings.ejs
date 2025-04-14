@@ -21,17 +21,17 @@
                 Enter the new information you would like to change then click Save Changes when done.
             </p>
 
-            <form action="/user/settings" method="post">
+            <form action="/user/settings" method="post" enctype="multipart/form-data">
 
                 <div class="row">
                     <div class="col">
                         <div class="row gy-2 px-2 pb-3">
                             <label for="profile-pic">Profile Picture</label>
-                            <input type="file" class="form-control" id="profile-pic" name="new_profile_pic">
-                            <div class="text-center">
+                            <input type="file" class="form-control" id="profile-pic" name="avatar">
+                            <!-- <div class="text-center">
                                 Preview:
                                 <img src="/images/logo.jpg" class="img-fluid img-thumbnail" alt="" id="image-preview">
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>
