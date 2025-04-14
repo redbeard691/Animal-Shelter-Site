@@ -1,6 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../model/User')
+const multer  = require('multer')
+
+//check multer docs for this on the express website
+const myStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '../public/images')
+    },
+    filename: function (req, file, cb) {
+      const dateRand = Date.now() + "_" + Math.round(Math.random() * 100000)
+      cb(null, file.originalname + '_' + dateRand)
+    }
+    
+  })
+
+const upload = multer({ storage: myStorage })
+
 
 /* Authenticated user actions. If user is not authenticated, redirects to login page. */
 
@@ -40,7 +56,7 @@ router.get('/settings', (req, res, next) => {
     }
 });
 
-router.post('/settings', async (req, res, next) => {
+router.post('/settings', upload.single('avatar'), async (req, res, next) => {
     // TODO: Ensure the user is editing their own settings.
     if (req.session.loggedin) {
         // Need to get instance directly from db in order to update it.
@@ -54,7 +70,12 @@ router.post('/settings', async (req, res, next) => {
         if (req.body.new_password) {
             user.password = req.body.new_password
         }
+
+        user.profilePic = req.file.filename
         await user.save()
+
+
+        //console.log("File name is: " + req.file.filename);
 
         req.session.user = user
 
@@ -64,6 +85,9 @@ router.post('/settings', async (req, res, next) => {
     }
 })
 
+router.post('/profilePic', upload.single('avatar'), function (req, res, next) {
+    //allows the user to upload a file for their profile picture.
+  })
 
 /* Unauthenticated user actions. If user is already logged in, redirect to profile page. */
 
