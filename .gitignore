@@ -1,2 +1,5 @@
 node_modules
 *.sqlite
+CMS_Animal_Shelter_Site/public/images/uploads/*.jpg
+CMS_Animal_Shelter_Site/public/images/uploads/*.png
+CMS_Animal_Shelter_Site/public/images/uploads/*.gif
