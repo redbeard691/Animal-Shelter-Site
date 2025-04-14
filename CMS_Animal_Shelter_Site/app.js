@@ -8,6 +8,7 @@ const sequelize = require('./db');
 
 // Models
 const User = require('./model/User');
+const Shelter = require('./model/Shelter');
 const Message = require('./model/Message');
 const { Post, Tag } = require('./model/Post');
 
@@ -20,13 +21,16 @@ var aboutRouter = require('./routes/info/about');
 var blogRouter = require('./routes/info/blog');
 var bulletinRouter = require('./routes/info/bulletins');
 var searchRouter = require('./routes/info/search');
-var shelterRouter = require('./routes/info/shelter');
 var sheltermapRouter = require('./routes/info/sheltermap');
 
-var accountRouter = require('./routes/account');
+var loginRouter = require('./routes/login');
+var signupRouter = require('./routes/signup');
+var logoutRouter = require('./routes/logout');
+var userRouter = require('./routes/user');
 var messageRouter = require('./routes/messages');
 var postRouter = require('./routes/posts');
 var adminRouter = require('./routes/admin');
+var sheltersRouter = require('./routes/shelters');
 
 
 var app = express();
@@ -71,13 +75,16 @@ app.use('/pages/info/about',aboutRouter);
 app.use('/pages/info/blog',blogRouter);
 app.use('/pages/info/bulletins',bulletinRouter);
 app.use('/pages/info/search',searchRouter);
-app.use('/pages/info/shelter',shelterRouter);
 app.use('/pages/info/sheltermap',sheltermapRouter);
 
-app.use('/account', accountRouter);
+app.use('/login', loginRouter);
+app.use('/signup', signupRouter);
+app.use('/logout', logoutRouter);
+app.use('/user', userRouter);
 app.use('/messages', messageRouter);
 app.use('/posts', postRouter);
 app.use('/admin', adminRouter);
+app.use('/shelters', sheltersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -100,10 +107,30 @@ app.use(function(err, req, res, next) {
 async function setup() {
   await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true});
   console.log("Created admin account.")
+
   await User.create({ username: "test", password: "test", email:"test@example.com"})
   console.log("Created test user account.")
   await User.create({ username: "nick", password: "1234", email:"nick@example.com"})
   console.log("Created test user account.")
+
+  await User.create(
+    {
+      username: "shelter",
+      password: "shelter",
+      email:"shelter@example.com",
+      isshelter: true,
+      Shelter: {
+        address: "111 SW Road, Everett, WA",
+        animals: "Dogs, cats, reptiles",
+        about: "Our shelter provides top care to a number of different animals.",
+        website: "example.com"
+      }
+    },
+    {
+      include: [Shelter]
+    }
+  )
+  console.log("Created test shelter account.")
 
   await Message.create({ sender: "test", recipient: "admin", subject: "Some subject", contents: "The message contents go here if they are not too long."})
   console.log("Created test message.")

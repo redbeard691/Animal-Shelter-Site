@@ -84,12 +84,12 @@
                 <div class="col row" id="poster-info">
                     <div class="col row">
                         <div class="col-auto">
-                            <a href=<%= `/account/profile/${locals.post.author}` %>>
+                            <a href=<%= `/user/${locals.post.author}` %>>
                                 <img src="/images/Portrait_Placeholder.png" class="img-thumbnail rounded-circle" alt="" id="user-pic">
                             </a>
                         </div>
                         <div class="col-auto align-content-center">
-                            <a href=<%= `/account/profile/${locals.post.author}` %> class="text-decoration-none text-body">
+                            <a href=<%= `/user/${locals.post.author}` %> class="text-decoration-none text-body">
                                 <h6>Posted by</h6>
                                 <p class="m-0"><%= locals.post.author %></p>
                             </a>

@@ -40,6 +40,10 @@ User.init({
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  isshelter:{
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   isbanned: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
