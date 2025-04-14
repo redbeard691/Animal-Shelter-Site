@@ -2,20 +2,8 @@ var express = require('express');
 var router = express.Router();
 var User = require('../model/User')
 const multer  = require('multer')
-
-//check multer docs for this on the express website
-// const myStorage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, '../public/images')
-//     },
-//     filename: function (req, file, cb) {
-//       const dateRand = Date.now() + "_" + Math.round(Math.random() * 100000)
-//       cb(null, file.originalname + '_' + dateRand)
-//     }
-    
-//   })
-
 const path = require('path');
+
 const myStorage = multer.diskStorage({
   destination(req, file, cb) {
     cb(null, path.join(__dirname, '../public/images/uploads'));
@@ -98,9 +86,8 @@ router.post('/settings', upload.single('avatar'), async (req, res, next) => {
     }
 })
 
-router.post('/profilePic', upload.single('avatar'), function (req, res, next) {
-    //allows the user to upload a file for their profile picture.
-  })
+//allows the user to upload a file for their profile picture.
+router.post('/profilePic', upload.single('avatar'), function (req, res, next) {})
 
 /* Unauthenticated user actions. If user is already logged in, redirect to profile page. */
 
