@@ -96,9 +96,9 @@ app.use(function(err, req, res, next) {
 });
 
 async function setup() {
-  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true });
+  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true, profilePic: "Portrait_Placeholder.png" });
   console.log("Created admin account.")
-  await User.create({ username: "test", password: "test", email:"test@example.com"})
+  await User.create({ username: "test", password: "test", email:"test@example.com", profilePic: "Portrait_Placeholder.png" })
   console.log("Created test user account.")
 
   await Message.create({ sender: "test", recipient: "admin", subject: "Some subject", contents: "The message contents go here if they are not too long."})
