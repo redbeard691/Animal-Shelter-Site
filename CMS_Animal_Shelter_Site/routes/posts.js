@@ -158,9 +158,10 @@ router.get('/edit/:postId', async (req, res, next) => {
     res.render('pages/posts/edit')
 })
 
-router.post('/edit/:postId', async (req, res, next) => {
+router.post('/edit/:postId', upload.single('picture'), async (req, res, next) => {
     try {
         const post = await Post.findByPk(req.params.postId)
+        console.log(post)
 
         if (post.author != req.session.user.username) {
             res.status(403).send("Account does not have access to this resource.")
@@ -189,7 +190,26 @@ router.post('/edit/:postId', async (req, res, next) => {
             include: [Tag]
         })
 
-        res.redirect(`/posts/view/${req.params.postId}`)
+        console.log(post)
+
+        res.redirect(`/posts/view/${post.id}`)
+    } catch (error) {
+        res.status(500).send("Server error")
+    }
+})
+
+router.post('/delete/:postId', async (req, res, next) => {
+    try {
+        console.log(`Attempting to delete post ${req.params.postId}...`)
+        const post = await Post.findByPk(req.params.postId)
+
+        if (post.author != req.session.user.username) {
+            res.status(403).send("Account does not have permission to delete this post.")
+        }
+
+        await post.destroy()
+
+        res.redirect('/posts')
     } catch (error) {
         res.status(500).send("Server error")
     }
