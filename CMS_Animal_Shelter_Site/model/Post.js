@@ -33,6 +33,10 @@ Post.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    picture: {
+        type: DataTypes.STRING,
+        defaultValue: "logo.jpg"
+    },
     description: {
         type: DataTypes.TEXT,
         allowNull: false

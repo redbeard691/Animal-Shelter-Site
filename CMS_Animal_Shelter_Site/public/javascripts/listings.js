@@ -33,9 +33,9 @@ function removeBlankAttributes(obj) {
 
 // TODO: Handle user-uploaded post & profile images. Might require additional fetches?
 function resultJsonToHtml(json) {
-    return `<a class="row border-bottom p-2 m-1 text-decoration-none text-body" href="/posts/${json.id}">
+    return `<a class="row border-bottom p-2 m-1 text-decoration-none text-body" href="/posts/view/${json.id}">
                 <div class="col-auto">
-                    <img src="/images/logo.jpg" height="100px" alt="">
+                    <img src="/images/${json.picture}" height="100px" alt="">
                 </div>
                 <div class="col-auto">
                     <table class="table table-borderless table-sm me-5">
