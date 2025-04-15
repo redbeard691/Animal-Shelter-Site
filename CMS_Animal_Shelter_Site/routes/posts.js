@@ -161,19 +161,9 @@ router.get('/edit/:postId', async (req, res, next) => {
 router.post('/edit/:postId', upload.single('picture'), async (req, res, next) => {
     try {
         const post = await Post.findByPk(req.params.postId)
-        console.log(post)
 
         if (post.author != req.session.user.username) {
             res.status(403).send("Account does not have access to this resource.")
-        }
-
-        // Parse tags
-        const inputTags = req.body.tags.split(',')
-        const tags = []
-
-        for (let i = 0; i < inputTags.length; i++) {
-            const tag = { name: inputTags[i] }
-            tags.push(tag)
         }
 
         await post.update({
@@ -184,13 +174,23 @@ router.post('/edit/:postId', upload.single('picture'), async (req, res, next) =>
             city: req.body.city,
             state: req.body.state,
             description: req.body.description,
-            Tags: tags
-        },
-        {
-            include: [Tag]
         })
 
-        console.log(post)
+        // Handle updated tags
+        if (req.body.tags) {
+            const tags = []
+            const inputTags = req.body.tags.split(',')
+            for (let i = 0; i < inputTags.length; i++) {
+                const tag = { name: inputTags[i], PostId: post.id }
+                tags.push(tag)
+            }
+
+            // Clear old tags
+            await Tag.destroy({where: { PostId: post.id }})
+
+            // Create new tags
+            await Tag.bulkCreate(tags)
+        }
 
         res.redirect(`/posts/view/${post.id}`)
     } catch (error) {
