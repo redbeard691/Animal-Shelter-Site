@@ -1,5 +1,6 @@
 const sequelize = require('../db')
 const { Model, DataTypes } = require('sequelize')
+const User = require('./User')
 
 class Post extends Model {}
 
@@ -55,7 +56,9 @@ Tag.init({
 });
 
 Post.hasMany(Tag);
+Tag.belongsTo(Post);
 
+Post.belongsTo(User, { foreignKey: "author" })
 
 
 module.exports = { Post, Tag }

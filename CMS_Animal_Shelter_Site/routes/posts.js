@@ -9,17 +9,15 @@ router.get('/', (req, res, next) => {
 
 router.get('/search', async (req, res, next) => {
     try {
-        console.log(req.query)
+        // console.log(req.query)
 
         const posts = await Post.findAll(
             {
                 where: req.query,
                 order: [
                     [ "updatedAt", "DESC" ]
-                ]
-            },
-            {
-                include: [Tag]
+                ],
+                include: [Tag, User]
             }
         )
 
@@ -75,14 +73,12 @@ router.post('/create', async (req, res, next) => {
 
 router.get('/:postId', async (req, res, next) => {
     try {
-        const post = await Post.findByPk(req.params.postId)
-        const tags = await Tag.findAll({ where: { PostId: post.id } })
-        const author = await User.findByPk(post.author)
+        const post = await Post.findByPk(req.params.postId, {
+            include: [Tag, User]
+        })
         
         if (post) {
             res.locals.post = post
-            res.locals.tags = tags
-            res.locals.author = author
             res.render('pages/posts/view')
         } else {
             res.status(404).send("Requested post could not be found.")

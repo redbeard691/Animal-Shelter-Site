@@ -11,6 +11,8 @@ async function getResults() {
     const response = await fetch(url)
     const json = await response.json()
 
+    console.log(json)
+
     // Add results to page
     const resultsDiv = document.getElementById("results-list")
     resultsDiv.innerHTML = ""
@@ -54,7 +56,7 @@ function resultJsonToHtml(json) {
                 <div class="col p-0"></div>
                 <div class="col-auto row">
                     <div class="col align-content-center">
-                        <img src="/images/Portrait_Placeholder.png" class="img-thumbnail rounded-circle" alt="" height="75px" width="75px">
+                        <img src="/images/${json.User.profilePic}" class="img-thumbnail rounded-circle" alt="" height="75px" width="75px">
                     </div>
                     <div class="col align-content-center">
                         <h6>Posted by</h6>

@@ -60,8 +60,8 @@
             <div class="col-9 border rounded p-2">
                 <h3 class="text-center">Tags</h3>
                 <ul class="list-inline list-unstyled text-center" id="tag-list">
-                    <% if (locals.tags) { %>
-                        <% const tags = locals.tags %>
+                    <% if (locals.post.Tags) { %>
+                        <% const tags = locals.post.Tags %>
                         <% for (var i = 0; i < tags.length; i++) { %>
                             <li class="list-inline-item badge rounded-pill bg-secondary"><%= tags[i].name %></li>
                         <% } %>
@@ -85,7 +85,7 @@
                     <div class="col row">
                         <div class="col-auto">
                             <a href=<%= `/user/${locals.post.author}` %>>
-                                <img src="/images/<%- locals.author.profilePic %>" class="img-thumbnail rounded-circle" alt="" id="user-pic">
+                                <img src="/images/<%- locals.post.User.profilePic %>" class="img-thumbnail rounded-circle" alt="" id="user-pic">
                             </a>
                         </div>
                         <div class="col-auto align-content-center">
