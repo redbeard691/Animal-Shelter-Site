@@ -22,7 +22,7 @@ const upload = multer({ storage: myStorage })
 
 router.get('/', (req, res, next) => {
     if (req.session.loggedin) {
-        res.redirect(`/user/${req.session.user.username}`)
+        res.redirect(`/user/profile/${req.session.user.username}`)
     } else {
         res.redirect('/login')
     }
@@ -88,7 +88,7 @@ router.post('/settings', upload.single('avatar'), async (req, res, next) => {
 //allows the user to upload a file for their profile picture.
 router.post('/profilePic', upload.single('avatar'), function (req, res, next) {})
 
-router.get('/:username', async (req, res, next) => {
+router.get('/profile/:username', async (req, res, next) => {
     const user = await User.findByPk(req.params.username, {
         include: [Shelter]
     })
