@@ -135,7 +135,7 @@ router.post('/create', upload.single('picture'), async (req, res, next) => {
         type: req.body.type,
         city: req.body.city,
         state: req.body.state,
-        picture: (req.file && req.file.filename) ? path.join("uploads", req.file.filename) : "",
+        picture: (req.file && req.file.filename) ? path.join("uploads", req.file.filename) : "logo.jpg",
         description: req.body.description,
         Tags: tags
     },
@@ -160,6 +160,7 @@ router.get('/edit/:postId', async (req, res, next) => {
 
 router.post('/edit/:postId', upload.single('picture'), async (req, res, next) => {
     try {
+        console.log(`Editing post ${req.params.postId}`)
         const post = await Post.findByPk(req.params.postId)
 
         if (post.author != req.session.user.username) {
@@ -176,6 +177,13 @@ router.post('/edit/:postId', upload.single('picture'), async (req, res, next) =>
             description: req.body.description,
         })
 
+        console.log("Updating picture...")
+        console.log(req.file)
+        if (req.file && req.file.filename){
+            await post.update({ picture: path.join("uploads", req.file.filename)})
+        }
+
+        console.log("Updating tags...")
         // Handle updated tags
         if (req.body.tags) {
             const tags = []
