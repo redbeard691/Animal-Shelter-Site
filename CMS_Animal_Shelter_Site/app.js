@@ -169,7 +169,7 @@ async function setup() {
     city: "A City",
     state: "A State",
     description: "Admin post description",
-    Tags: [{ name: "tag1" }, { name: "brown" }, { name: "lab" }]
+    Tags: [{ name: "tag1" }, { name: "black" }, { name: "lab" }]
   },
   {
     include: [Tag]

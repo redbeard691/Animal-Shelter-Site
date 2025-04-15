@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var { Post, Tag } = require('../model/Post')
 var User = require('../model/User')
+const { Op } = require("sequelize");
 const multer  = require('multer')
 const path = require('path');
 
@@ -26,18 +27,58 @@ router.get('/', (req, res, next) => {
 
 router.get('/search', async (req, res, next) => {
     try {
-        const posts = await Post.findAll(
-            {
-                where: req.query,
-                order: [
-                    [ "updatedAt", "DESC" ]
-                ],
-                include: [Tag, User]
+        console.log(req.query)
+
+        const query = {}
+        for (const param in req.query) {
+            console.log(param)
+            if (param !== "Tag") {
+                query[param] = req.query[param]
             }
-        )
+        }
+
+        let result = []
+
+        if (req.query.Tag){
+            const tags = req.query.Tag.split(',')
+
+            const posts = await Post.findAll(
+                {
+                    where: query,
+                    order: [
+                        [ "updatedAt", "DESC" ]
+                    ],
+                    include: [
+                    {
+                        model: Tag,
+                        where: {
+                            name: { [Op.in]: tags }
+                        }
+                    },
+                    { model: User }
+                  ]
+                }
+              )
+            
+            for (const post of posts) {
+                if (post.Tags && post.Tags.length === tags.length){
+                    result.push(post)
+                }
+            }
+        } else {
+            result = await Post.findAll(
+                {
+                    where: query,
+                    order: [
+                        [ "updatedAt", "DESC" ]
+                    ],
+                    include: [Tag, User]
+                }
+            )
+        }
 
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(posts));
+        res.end(JSON.stringify(result));
     } catch (error) {
         console.error(error)
         res.status(500).send("Server error.")
