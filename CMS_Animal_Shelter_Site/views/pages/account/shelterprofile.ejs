@@ -11,10 +11,10 @@
      <!--Including navigation bar-->
      <%- include(includePath + '/template/header') %>
     <div class="container mt-5">
-        <ul class="list-group list-group-flush list-group-horizontal-md">
+        <ul class="list-group list-group-flush list-group-horizontal-md d-flex justify-content-center">
             <!--Shelter Profile Picture-->
             <li class="list-group-item text-center border-0">
-                <img src="../../images/Portrait_Placeholder.png" id="shelter-pic">
+                <img src="/images/<%- locals.user.profilePic %>" id="shelter-pic">
             </li>
 
             <!--Shelter Info-->
