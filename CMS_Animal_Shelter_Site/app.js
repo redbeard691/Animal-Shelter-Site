@@ -15,14 +15,11 @@ const { Post, Tag } = require('./model/Post');
 
 // Routes ----------------------------------
 var indexRouter = require('./routes/index');
-var headerRouter = require('./routes/header');
 // Info Routes
-var aboutRouter = require('./routes/info/about');
 var blogRouter = require('./routes/info/blog');
 var bulletinRouter = require('./routes/info/bulletins');
-var searchRouter = require('./routes/info/search');
-var sheltermapRouter = require('./routes/info/sheltermap');
 
+var aboutRouter = require('./routes/about');
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
 var logoutRouter = require('./routes/logout');
@@ -69,14 +66,11 @@ app.use((req, res, next) => {
 // Routers
 app.use('/', indexRouter);
 
-app.use('/template/header',headerRouter);
 // Info
-app.use('/pages/info/about',aboutRouter);
 app.use('/pages/info/blog',blogRouter);
 app.use('/pages/info/bulletins',bulletinRouter);
-app.use('/pages/info/search',searchRouter);
-app.use('/pages/info/sheltermap',sheltermapRouter);
 
+app.use('/about',aboutRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
 app.use('/logout', logoutRouter);
@@ -92,7 +86,6 @@ app.use(function(req, res, next) {
 });
 
 
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -104,6 +97,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+// Setup function for test data.
 async function setup() {
   await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true});
   console.log("Created admin account.")
@@ -174,7 +169,7 @@ async function setup() {
     city: "A City",
     state: "A State",
     description: "Admin post description",
-    Tags: [{ name: "tag1" }, { name: "brown" }, { name: "lab" }]
+    Tags: [{ name: "tag1" }, { name: "black" }, { name: "lab" }]
   },
   {
     include: [Tag]

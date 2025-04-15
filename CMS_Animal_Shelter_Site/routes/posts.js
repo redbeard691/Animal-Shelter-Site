@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var { Post, Tag } = require('../model/Post')
 var User = require('../model/User')
+const { Op } = require("sequelize");
 const multer  = require('multer')
 const path = require('path');
 
@@ -26,18 +27,58 @@ router.get('/', (req, res, next) => {
 
 router.get('/search', async (req, res, next) => {
     try {
-        const posts = await Post.findAll(
-            {
-                where: req.query,
-                order: [
-                    [ "updatedAt", "DESC" ]
-                ],
-                include: [Tag, User]
+        console.log(req.query)
+
+        const query = {}
+        for (const param in req.query) {
+            console.log(param)
+            if (param !== "Tag") {
+                query[param] = req.query[param]
             }
-        )
+        }
+
+        let result = []
+
+        if (req.query.Tag){
+            const tags = req.query.Tag.split(',')
+
+            const posts = await Post.findAll(
+                {
+                    where: query,
+                    order: [
+                        [ "updatedAt", "DESC" ]
+                    ],
+                    include: [
+                    {
+                        model: Tag,
+                        where: {
+                            name: { [Op.in]: tags }
+                        }
+                    },
+                    { model: User }
+                  ]
+                }
+              )
+            
+            for (const post of posts) {
+                if (post.Tags && post.Tags.length === tags.length){
+                    result.push(post)
+                }
+            }
+        } else {
+            result = await Post.findAll(
+                {
+                    where: query,
+                    order: [
+                        [ "updatedAt", "DESC" ]
+                    ],
+                    include: [Tag, User]
+                }
+            )
+        }
 
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(posts));
+        res.end(JSON.stringify(result));
     } catch (error) {
         console.error(error)
         res.status(500).send("Server error.")
@@ -94,7 +135,7 @@ router.post('/create', upload.single('picture'), async (req, res, next) => {
         type: req.body.type,
         city: req.body.city,
         state: req.body.state,
-        picture: (req.file && req.file.filename) ? path.join("uploads", req.file.filename) : "",
+        picture: (req.file && req.file.filename) ? path.join("uploads", req.file.filename) : "logo.jpg",
         description: req.body.description,
         Tags: tags
     },
@@ -117,21 +158,13 @@ router.get('/edit/:postId', async (req, res, next) => {
     res.render('pages/posts/edit')
 })
 
-router.post('/edit/:postId', async (req, res, next) => {
+router.post('/edit/:postId', upload.single('picture'), async (req, res, next) => {
     try {
+        console.log(`Editing post ${req.params.postId}`)
         const post = await Post.findByPk(req.params.postId)
 
         if (post.author != req.session.user.username) {
             res.status(403).send("Account does not have access to this resource.")
-        }
-
-        // Parse tags
-        const inputTags = req.body.tags.split(',')
-        const tags = []
-
-        for (let i = 0; i < inputTags.length; i++) {
-            const tag = { name: inputTags[i] }
-            tags.push(tag)
         }
 
         await post.update({
@@ -142,13 +175,49 @@ router.post('/edit/:postId', async (req, res, next) => {
             city: req.body.city,
             state: req.body.state,
             description: req.body.description,
-            Tags: tags
-        },
-        {
-            include: [Tag]
         })
 
-        res.redirect(`/posts/view/${req.params.postId}`)
+        console.log("Updating picture...")
+        console.log(req.file)
+        if (req.file && req.file.filename){
+            await post.update({ picture: path.join("uploads", req.file.filename)})
+        }
+
+        console.log("Updating tags...")
+        // Handle updated tags
+        if (req.body.tags) {
+            const tags = []
+            const inputTags = req.body.tags.split(',')
+            for (let i = 0; i < inputTags.length; i++) {
+                const tag = { name: inputTags[i], PostId: post.id }
+                tags.push(tag)
+            }
+
+            // Clear old tags
+            await Tag.destroy({where: { PostId: post.id }})
+
+            // Create new tags
+            await Tag.bulkCreate(tags)
+        }
+
+        res.redirect(`/posts/view/${post.id}`)
+    } catch (error) {
+        res.status(500).send("Server error")
+    }
+})
+
+router.post('/delete/:postId', async (req, res, next) => {
+    try {
+        console.log(`Attempting to delete post ${req.params.postId}...`)
+        const post = await Post.findByPk(req.params.postId)
+
+        if (post.author != req.session.user.username) {
+            res.status(403).send("Account does not have permission to delete this post.")
+        }
+
+        await post.destroy()
+
+        res.redirect('/posts')
     } catch (error) {
         res.status(500).send("Server error")
     }

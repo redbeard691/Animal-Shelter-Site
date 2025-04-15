@@ -11,6 +11,18 @@ router.use('*', (req, res, next) => {
     }
 })
 
+router.get('/', (req, res, next) => {
+    res.redirect('/messages/inbox')
+})
+
+router.get('/inbox', async (req, res, next) => {
+    res.locals.messages = await Message.findAll({
+        where: { recipient: req.session.user.username }
+    })
+
+    res.render('pages/messages/inbox')
+})
+
 router.get('/compose', (req, res, next) => {
     if (req.query.recipient) {
         res.locals.recipient = req.query.recipient
@@ -39,14 +51,6 @@ router.post('/compose', async (req, res, next) => {
     }
     
     res.redirect('/messages/inbox')
-})
-
-router.get('/inbox', async (req, res, next) => {
-    res.locals.messages = await Message.findAll({
-        where: { recipient: req.session.user.username }
-    })
-
-    res.render('pages/messages/inbox')
 })
 
 router.get('/:messageId', async (req, res, next) => {
