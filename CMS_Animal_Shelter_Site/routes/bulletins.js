@@ -29,3 +29,5 @@ router.get('/search', async (req, res, next) => {
         res.status(500).send("Server error.")
     }
 })
+
+module.exports = router;
