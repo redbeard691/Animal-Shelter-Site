@@ -148,29 +148,15 @@
         <h1 class="mt-5 text-center">Recent Articles</h1>
         <div class="row p-0 g-0 mb-5">
             <ul class="list-group list-group-horizontal-md list-group-flush rounded border">
-                <a href="pages/info/bulletins" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/logo.jpg" class="list-img mx-auto d-block">
-                    <h3>Article Title</h3>
-                    <p>
-                        Article Summary
-                    </p>
-                </a>
-
-                <a href="pages/info/bulletins" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/logo.jpg" class="list-img mx-auto d-block">
-                    <h3>Article Title</h3>
-                    <p>
-                        Article Summary
-                    </p>
-                </a>
-
-                <a href="pages/info/bulletins" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/logo.jpg" class="list-img mx-auto d-block">
-                    <h3>Article Title</h3>
-                    <p>
-                        Article Summary
-                    </p>
-                </a>
+                <% recentBlogs.forEach(blog => { %>
+                    <a href="/pages/info/viewblog/<%= blog.slug %>" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
+                        <img src="<%= blog.featuredImage ? blog.featuredImage : '/images/logo.jpg' %>" class="list-img mx-auto d-block">
+                        <h3><%= blog.title %></h3>
+                        <p>
+                            <%= blog.author %>
+                        </p>
+                    </a>
+                <% }); %>
             </ul>
             <a href="/pages/info/blog" class="btn btn-primary btn-lg mt-2" role="button">View Site Blog</a>
         </div>
