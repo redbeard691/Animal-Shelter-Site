@@ -15,10 +15,10 @@
         <div class="border p-3">
             <h2><%= locals.bulletin.title %></h2>
             <p><%= locals.bulletin.contents %></p>
-            <% if (locals.currentuser.isshelter) { %>
+            <% if (locals.currentuser && locals.currentuser.isshelter) { %>
                 <a href="/pages/info/bulletins/edit/<%- locals.bulletin.id %>"><button type="button" class="btn btn-secondary mt-3">Edit Bulletin</button></a>
             <% } %>
-            <% if (locals.currentuser.isshelter || locals.currentuser.isadmin) { %>
+            <% if (locals.currentuser && (locals.currentuser.isshelter || locals.currentuser.isadmin)) { %>
                 <form action="/pages/info/bulletins/delete/<%- locals.bulletin.id %>" method="post">
                     <button type="submit" class="btn btn-danger mt-3">Delete Bulletin</button>
                 </form>
