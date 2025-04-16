@@ -29,7 +29,7 @@ var messageRouter = require('./routes/messages');
 var postRouter = require('./routes/posts');
 var adminRouter = require('./routes/admin');
 
-var bulletinRouter = require('./routes/bulletins')
+var bulletinRouter = require('./routes/info/bulletins')
 
 
 var app = express();
