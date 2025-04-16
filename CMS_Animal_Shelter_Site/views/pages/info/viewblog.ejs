@@ -23,6 +23,9 @@
                 </div>
             <div class="card-footer">
                 <% if (locals.currentuser.isadmin) { %>
+                    <form action="/pages/info/editblog/<%- blog.slug %>" method="get">
+                        <button class="btn btn-secondary mb-2" type="submit">Edit Blog Post</button>
+                    </form>
                     <form action="/pages/info/deleteblog/<%- blog.slug %>" method="post">
                         <button class="btn btn-danger mb-2" type="submit">Delete Blog Post</button>
                     </form>
