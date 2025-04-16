@@ -72,34 +72,47 @@
             <a href="/posts" class="btn btn-primary btn-lg mt-2" role="button">View All Pets</a>
         </div>
 
-        <h1 class="mt-5 text-center">Recent Articles</h1>
-        <div class="row p-0 g-0 mb-5">
-            <ul class="list-group list-group-horizontal-md list-group-flush rounded border">
-                <a href="pages/info/bulletins" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/logo.jpg" class="list-img mx-auto d-block">
-                    <h3>Article Title</h3>
-                    <p>
-                        Article Summary
-                    </p>
-                </a>
-
-                <a href="pages/info/bulletins" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/logo.jpg" class="list-img mx-auto d-block">
-                    <h3>Article Title</h3>
-                    <p>
-                        Article Summary
-                    </p>
-                </a>
-
-                <a href="pages/info/bulletins" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/logo.jpg" class="list-img mx-auto d-block">
-                    <h3>Article Title</h3>
-                    <p>
-                        Article Summary
-                    </p>
-                </a>
+        <h1 class="mt-5 text-center">Recent Information Bulletins Posts</h1>
+        <div class="row p-0 g-0">
+            <ul class="list-group list-group-horizontal-md list-group-flush rounded border justify-content-center bg-secondary-subtle">
+                <% if (locals.bulletins) { %>
+                    <% const bulletins = locals.bulletins %>
+                    <% for (let i = 0; i < Math.min(bulletins.length, 3); i++) { %>
+                        <div class="list-group-item card m-3" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= bulletins[i].title %></h5>
+                                <p class="card-text"><%= bulletins[i].contents %></p>
+                                <a href="/posts/view/<%- bulletins[i].date %>" class="btn btn-primary">View Bulletin</a>
+                            </div>
+                          </div>
+                    <% } %>
+                <% } else { %>
+                    <h2>Information bulletins will appear here.</h2>
+                <% } %>
             </ul>
-            <a href="/pages/info/blog" class="btn btn-primary btn-lg mt-2" role="button">View Site Blog</a>
+            <a href="/pages/info/bulletins" class="btn btn-primary btn-lg mt-2" role="button">View All Bulletins</a>
+        </div>
+
+        <h1 class="mt-5 text-center">Recent Blog Posts</h1>
+        <div class="row p-0 g-0">
+            <ul class="list-group list-group-horizontal-md list-group-flush rounded border justify-content-center bg-secondary-subtle">
+                <% if (locals.blogs) { %>
+                    <% const blogs = locals.blogs %>
+                    <% for (let i = 0; i < Math.min(blogs.length, 3); i++) { %>
+                        <div class="list-group-item card m-3" style="width: 18rem;">
+                            <img src="<%- blogs[i].featuredImage %>" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= blogs[i].title %></h5>
+                                <p class="card-text"><%= blogs[i].author %></p>
+                                <a href="/pages/info/viewblog/<%- blogs[i].slug %>" class="btn btn-primary">View Blog Post</a>
+                            </div>
+                          </div>
+                    <% } %>
+                <% } else { %>
+                    <h2>Blog posts bulletins will appear here.</h2>
+                <% } %>
+            </ul>
+            <a href="/pages/info/blog" class="btn btn-primary btn-lg mt-2" role="button">View All Blog Posts</a>
         </div>
 
     </div>

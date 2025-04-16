@@ -1,0 +1,3 @@
+.ck-editor__editable {
+    min-height: 200px; /* Ensure editor has a reasonable default height */
+  }

@@ -21,17 +21,23 @@
                 Enter the new information you would like to change then click Save Changes when done.
             </p>
 
+            <% if (locals.msg) { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= msg %>
+                </div>
+            <% } %>
+
             <form action="/user/settings" method="post" enctype="multipart/form-data">
 
                 <div class="row">
                     <div class="col">
                         <div class="row gy-2 px-2 pb-3">
-                            <label for="profile-pic">Profile Picture</label>
+                            <label for="profile-pic">New Profile Picture</label>
                             <input type="file" class="form-control" id="profile-pic" name="avatar">
-                            <!-- <div class="text-center">
-                                Preview:
-                                <img src="/images/logo.jpg" class="img-fluid img-thumbnail" alt="" id="image-preview">
-                            </div> -->
+                            <div class="text-center">
+                                Current profile picture:<br>
+                                <img src="/images/<%- locals.currentuser.profilePic %>" class="img-fluid img-thumbnail" alt="" id="image-preview">
+                            </div>
 
                         </div>
                     </div>
@@ -49,7 +55,7 @@
 
                         <div class="mb-3">
                             <label for="input-password-new-confirm" class="form-label">Re-enter New Password</label>
-                            <input type="password" class="form-control" id="input-password-new-confirm">
+                            <input type="password" class="form-control" id="input-password-new-confirm" name="new_password_confirm">
                         </div>
                     </div>
                 </div>
