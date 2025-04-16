@@ -3,10 +3,10 @@ const { Model, DataTypes } = require('sequelize')
 
 class Bulletin extends Model {}
 
-Message.init({
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
+Bulletin.init({
+    date: {
+        type: DataTypes.NUMBER,
+        defaultValue: Date.now,
         primaryKey: true
     },
     title: {

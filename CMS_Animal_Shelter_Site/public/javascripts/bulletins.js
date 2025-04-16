@@ -9,6 +9,7 @@ async function getResults() {
     const resultsDiv = document.getElementById("results-list")
     resultsDiv.innerHTML = ""
     for(var i = 0; i < json.length; i++){
+        console.log(json[i])
         resultsDiv.innerHTML += resultJsonToHtml(json[i])
     }
 }

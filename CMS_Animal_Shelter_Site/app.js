@@ -10,6 +10,7 @@ const sequelize = require('./db');
 const User = require('./model/User');
 const Message = require('./model/Message');
 const { Post, Tag } = require('./model/Post');
+const Bulletin = require("./model/Bulletin");
 
 
 // Routes ----------------------------------
@@ -27,6 +28,8 @@ var accountRouter = require('./routes/account');
 var messageRouter = require('./routes/messages');
 var postRouter = require('./routes/posts');
 var adminRouter = require('./routes/admin');
+
+var bulletinRouter = require('./routes/bulletins')
 
 
 var app = express();
@@ -153,7 +156,19 @@ async function setup() {
     include: [Tag]
   })
   console.log("Created test posts.")
+
+  await Bulletin.create({
+    title: "Food recall on XYZ Kibble",
+    contents: "XYZ kibble has been recalled due to salmonella contamination. You are advised to throw out any food with a best by date of 6/20"
+  })
+  await Bulletin.create({
+    title: " ABC branded rope toy recalled",
+    contents: "ABC branded rope toys have been recalled due to unsafe chemicals in the cotton rope."
+  })
+
 }
+
+
 
 sequelize.sync({ force: true }).then(()=>{
   console.log("Sequelize Sync Completed...");
