@@ -28,7 +28,7 @@ function removeBlankAttributes(obj) {
 function resultJsonToHtml(json) {
     return `<div class="panel panel-default border">
                         <div class="panel-heading">
-                            <h3>${json.name ? json.name : "Unknown"}</h3>
+                            <h3>${json.title ? json.title : "Unknown"}</h3>
                         </div>
                         <div class="panel-body">
                             <p>${json.contents ? json.contents : "Unknown"}</p>

@@ -16,9 +16,6 @@ router.get('/search', async (req, res, next) => {
                 order: [
                     [ "date", "DESC" ]
                 ]
-            },
-            {
-                include: [Tag]
             }
         )
 
