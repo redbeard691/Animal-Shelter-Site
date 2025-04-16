@@ -26,23 +26,23 @@
         <form action = "/signup" method="post">
             <div class="mb-3">
                 <label for="input-username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="input-username" name="username">
+                <input type="text" class="form-control" id="input-username" name="username" required>
             </div>
 
             <div class="mb-3">
                 <label for="input-email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="input-email" name="email" aria-describedby="emailHelp">
+                <input type="email" class="form-control" id="input-email" name="email" aria-describedby="emailHelp" required>
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
 
             <div class="mb-3">
                 <label for="input-password-1" class="form-label">Password</label>
-                <input type="password" class="form-control" id="input-password-1" name="password">
+                <input type="password" class="form-control" id="input-password-1" name="password" required minlength="6">
             </div>
 
             <div class="mb-3">
                 <label for="input-password-2" class="form-label">Re-enter Password</label>
-                <input type="password" class="form-control" id="input-password-2">
+                <input type="password" class="form-control" id="input-password-2" name="password_confirm" required minlength="6">
             </div>
 
             <button type="submit" class="btn btn-primary btn-lg w-100">Create Account</button>
