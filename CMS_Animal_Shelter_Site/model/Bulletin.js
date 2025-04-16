@@ -6,8 +6,7 @@ class Bulletin extends Model {}
 Bulletin.init({
     date: {
         type: DataTypes.NUMBER,
-        defaultValue: Date.now,
-        primaryKey: true
+        defaultValue: Date.now
     },
     title: {
         type: DataTypes.STRING,

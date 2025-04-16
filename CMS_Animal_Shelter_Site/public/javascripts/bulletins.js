@@ -1,6 +1,6 @@
 async function getResults() {
     // Fetch from server
-    const url = "bulletins/search?"
+    const url = "/pages/info/bulletins/search"
     //console.log(url)
     const response = await fetch(url)
     const json = await response.json()
@@ -26,12 +26,13 @@ function removeBlankAttributes(obj) {
 
 // TODO: Handle user-uploaded post & profile images. Might require additional fetches?
 function resultJsonToHtml(json) {
-    return `<div class="panel panel-default border">
-                        <div class="panel-heading">
-                            <h3>${json.title ? json.title : "Unknown"}</h3>
-                        </div>
-                        <div class="panel-body">
-                            <p>${json.contents ? json.contents : "Unknown"}</p>
-                        </div>
-                    </div>`
+    return `<div class="panel panel-default border p-3 mb-1">
+                <div class="panel-heading">
+                    <h3>${json.title ? json.title : "Unknown"}</h3>
+                </div>
+                <div class="panel-body">
+                    <p>${json.contents ? json.contents : "Unknown"}</p>
+                </div>
+                <a href="/pages/info/bulletins/view/${json.id}"><button type="button" class="btn btn-primary">View Bulletin</button></a>
+            </div>`
 }
