@@ -14,12 +14,11 @@
     <%- include(includePath + '/template/header') %>
 
     <div class="text-center align-content-center" id="hero">
-        <h1 class="fw-bold">[Site Name]</h1>
+        <h1 class="fw-bold">Critter Finder</h1>
         <h4 class="fw-bold">Bringing Pets Home</h4>
         <div class="col-lg-6 mx-auto">
             <div class="btn-toolbar justify-content-center">
-                <a href="/posts/create" class="btn btn-primary btn-lg me-2" role="button">Report a Lost Pet</a>
-                <a href="/posts/create" class="btn btn-primary btn-lg" role="button">Report a Found Pet</a>
+                <a href="/posts/create" class="btn btn-primary btn-lg me-2" role="button">Report a Lost or Found Pet</a>
             </div>
         </div>
     </div>
@@ -27,138 +26,93 @@
     <div class="container">
         <h1 class="mt-5 text-center">Recent Lost Pets</h1>
         <div class="row p-0 g-0">
-            <ul class="list-group list-group-horizontal-md list-group-flush rounded border">
-                <a href="/posts/view" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/rabbit.webp" class="list-img mx-auto d-block">
-                    <table class="table table-borderless m-0">
-                        <tr>
-                            <th>Name:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Type:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Location:</th>
-                            <td>Caerbannog</td>
-                        </tr>
-                    </table>
-                </a>
-
-                <a href="pages/posts/view" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/rabbit.webp" class="list-img mx-auto d-block">
-                    <table class="table table-borderless m-0">
-                        <tr>
-                            <th>Name:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Type:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Location:</th>
-                            <td>Caerbannog</td>
-                        </tr>
-                    </table>
-                </a>
-
-                <a href="pages/posts/view" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/rabbit.webp" class="list-img mx-auto d-block">
-                    <table class="table table-borderless m-0">
-                        <tr>
-                            <th>Name:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Type:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Location:</th>
-                            <td>Caerbannog</td>
-                        </tr>
-                    </table>
-                </a>
+            <ul class="list-group list-group-horizontal-md list-group-flush rounded border justify-content-center bg-secondary-subtle">
+                <% if (locals.lostPosts) { %>
+                    <% const lost = locals.lostPosts %>
+                    <% for (let i = 0; i < Math.min(lost.length, 3); i++) { %>
+                        <div class="list-group-item card m-3" style="width: 18rem;">
+                            <img src="/images/<%- lost[i].picture %>" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= lost[i].name %></h5>
+                                <p class="card-text"><b>Type:</b> <%= lost[i].type %><br><b>Location:</b> <%= lost[i].city %>, <%= lost[i].state %></p>
+                                <a href="/posts/view/<%- lost[i].id %>" class="btn btn-primary">View Post</a>
+                            </div>
+                          </div>
+                    <% } %>
+                <% } else { %>
+                    <h2>Lost animal posts will appear here.</h2>
+                <% } %>
             </ul>
-            <a href="/pages/posts/listings" class="btn btn-primary btn-lg mt-2" role="button">View All Lost Pets</a>
+            <a href="/posts" class="btn btn-primary btn-lg mt-2" role="button">View All Pets</a>
         </div>
 
         <h1 class="mt-5 text-center">Recent Found Pets</h1>
         <div class="row p-0 g-0">
-            <ul class="list-group list-group-horizontal-md list-group-flush rounded border">
-                <a href="pages/posts/view" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/rabbit.webp" class="list-img mx-auto d-block">
-                    <table class="table table-borderless m-0">
-                        <tr>
-                            <th>Name:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Type:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Location:</th>
-                            <td>Caerbannog</td>
-                        </tr>
-                    </table>
-                </a>
-
-                <a href="pages/posts/view" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/rabbit.webp" class="list-img mx-auto d-block">
-                    <table class="table table-borderless m-0">
-                        <tr>
-                            <th>Name:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Type:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Location:</th>
-                            <td>Caerbannog</td>
-                        </tr>
-                    </table>
-                </a>
-
-                <a href="pages/posts/view" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                    <img src="images/rabbit.webp" class="list-img mx-auto d-block">
-                    <table class="table table-borderless m-0">
-                        <tr>
-                            <th>Name:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Type:</th>
-                            <td>Rabbit</td>
-                        </tr>
-                        <tr>
-                            <th>Location:</th>
-                            <td>Caerbannog</td>
-                        </tr>
-                    </table>
-                </a>
+            <ul class="list-group list-group-horizontal-md list-group-flush rounded border justify-content-center bg-secondary-subtle">
+                <% if (locals.foundPosts) { %>
+                    <% const found = locals.foundPosts %>
+                    <% for (let i = 0; i < Math.min(found.length, 3); i++) { %>
+                        <div class="list-group-item card m-3" style="width: 18rem;">
+                            <img src="/images/<%- found[i].picture %>" class="card-img-top">
+                            <div class="card-body">
+                                <% if (found[i].name) { %>
+                                    <h5 class="card-title"><%= found[i].name %></h5>
+                                <% } else { %>
+                                    <h5 class="card-title">Unknown</h5>
+                                <% } %>
+                                <p class="card-text"><b>Type:</b> <%= found[i].type %><br><b>Location:</b> <%= found[i].city %>, <%= found[i].state %></p>
+                                <a href="/posts/view/<%- found[i].id %>" class="btn btn-primary">View Post</a>
+                            </div>
+                          </div>
+                    <% } %>
+                <% } else { %>
+                    <h2>Found animal posts will appear here.</h2>
+                <% } %>
             </ul>
-            <a href="/pages/posts/listings" class="btn btn-primary btn-lg mt-2" role="button">View All Found Pets</a>
+            <a href="/posts" class="btn btn-primary btn-lg mt-2" role="button">View All Pets</a>
         </div>
 
-        <h1 class="mt-5 text-center">Recent Articles</h1>
-        <div class="row p-0 g-0 mb-5">
-            <ul class="list-group list-group-horizontal-md list-group-flush rounded border">
-                <% recentBlogs.forEach(blog => { %>
-                    <a href="/pages/info/viewblog/<%= blog.slug %>" class="list-group-item list-group-item-action bg-secondary-subtle p-3">
-                        <img src="<%= blog.featuredImage ? blog.featuredImage : '/images/logo.jpg' %>" class="list-img mx-auto d-block">
-                        <h3><%= blog.title %></h3>
-                        <p>
-                            <%= blog.author %>
-                        </p>
-                    </a>
-                <% }); %>
+        <h1 class="mt-5 text-center">Recent Information Bulletins Posts</h1>
+        <div class="row p-0 g-0">
+            <ul class="list-group list-group-horizontal-md list-group-flush rounded border justify-content-center bg-secondary-subtle">
+                <% if (locals.bulletins) { %>
+                    <% const bulletins = locals.bulletins %>
+                    <% for (let i = 0; i < Math.min(bulletins.length, 3); i++) { %>
+                        <div class="list-group-item card m-3" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= bulletins[i].title %></h5>
+                                <p class="card-text"><%= bulletins[i].contents %></p>
+                                <a href="/posts/view/<%- bulletins[i].date %>" class="btn btn-primary">View Bulletin</a>
+                            </div>
+                          </div>
+                    <% } %>
+                <% } else { %>
+                    <h2>Information bulletins will appear here.</h2>
+                <% } %>
             </ul>
-            <a href="/pages/info/blog" class="btn btn-primary btn-lg mt-2" role="button">View Site Blog</a>
+            <a href="/pages/info/bulletins" class="btn btn-primary btn-lg mt-2" role="button">View All Bulletins</a>
+        </div>
+
+        <h1 class="mt-5 text-center">Recent Blog Posts</h1>
+        <div class="row p-0 g-0">
+            <ul class="list-group list-group-horizontal-md list-group-flush rounded border justify-content-center bg-secondary-subtle">
+                <% if (locals.blogs) { %>
+                    <% const blogs = locals.blogs %>
+                    <% for (let i = 0; i < Math.min(blogs.length, 3); i++) { %>
+                        <div class="list-group-item card m-3" style="width: 18rem;">
+                            <img src="<%- blogs[i].featuredImage %>" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= blogs[i].title %></h5>
+                                <p class="card-text"><%= blogs[i].author %></p>
+                                <a href="/pages/info/viewblog/<%- blogs[i].slug %>" class="btn btn-primary">View Blog Post</a>
+                            </div>
+                          </div>
+                    <% } %>
+                <% } else { %>
+                    <h2>Blog posts bulletins will appear here.</h2>
+                <% } %>
+            </ul>
+            <a href="/pages/info/blog" class="btn btn-primary btn-lg mt-2" role="button">View All Blog Posts</a>
         </div>
 
     </div>

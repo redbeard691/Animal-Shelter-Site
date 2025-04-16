@@ -1,22 +1,63 @@
 var express = require('express');
 var router = express.Router();
-const SiteBlogs  = require('../model/SiteBlogs');
+const SiteBlogs = require('../model/SiteBlogs');
+var { Post } = require('../model/Post');
+const Bulletin = require('../model/Bulletin');
 
 /* GET home page. */
-router.get('/', async (req, res, next) => {
+router.get('/', async function (req, res, next) {
   try {
-      // Fetch the 3 newest blog posts, ordered by creation date
-      const recentBlogs = await SiteBlogs.findAll({
-          order: [['createdAt', 'DESC']], // Order by createdAt in descending order (newest first)
-          limit: 3, // Limit the result to 3 posts
-      });
+    const lostPosts = await Post.findAll(
+      {
+        where: {
+          status: "Lost"
+        },
+        order: [
+          ["createdAt", "DESC"]
+        ],
+        limit: 3
+      }
+    )
 
-      // Render the index page and pass the blog data to the template
-      res.render('index', { recentBlogs }); // 'index' is the name of your EJS file
-  } catch (error) {
-      console.error('Error fetching recent blogs:', error);
-      // Handle the error appropriately, e.g., show an error page to the user
-      res.status(500).send('Internal Server Error'); // Or render an error page: res.render('error', { message: 'Failed to load blogs' });
+    const foundPosts = await Post.findAll(
+      {
+        where: {
+          status: "Found"
+        },
+        order: [
+          ["createdAt", "DESC"]
+        ],
+        limit: 3
+      }
+    )
+
+    const bulletins = await Bulletin.findAll(
+      {
+        order: [
+          ["createdAt", "DESC"]
+        ],
+        limit: 3
+      }
+    )
+
+    const blogs = await SiteBlogs.findAll(
+      {
+        order: [
+          ["createdAt", "DESC"]
+        ],
+        limit: 3
+      }
+    )
+
+    res.locals.lostPosts = lostPosts
+    res.locals.foundPosts = foundPosts
+    res.locals.bulletins = bulletins
+    res.locals.blogs = blogs
+    res.render('index');
+  } catch {
+    console.error('Error rendering homepage:', error);
+    // Handle the error appropriately, e.g., show an error page to the user
+    res.status(500).send('Internal Server Error');
   }
 });
 
