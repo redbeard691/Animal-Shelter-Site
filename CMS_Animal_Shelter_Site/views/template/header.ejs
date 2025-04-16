@@ -19,28 +19,22 @@
                         Resources
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/pages/info/sheltermap">Local Shelters</a></li>
+                        <li><a class="dropdown-item" href="/shelters">Local Shelters</a></li>
                         <li><a class="dropdown-item" href="/pages/info/bulletins">Information Bulletins</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" href="/pages/info/blog">Site Blog</a></li>
-                        <li><a class="dropdown-item" href="/pages/info/about">About</a></li>
+                        <li><a class="dropdown-item" href="/about">About</a></li>
                     </ul>
                 </li>
             </ul>
-            <ul class="navbar-nav">
-                <a class="nav-link" href="/pages/info/search">
-                    Search
-                    <img src="/images/search_light.svg" alt="Search" width="28">
-                </a>
-            </ul>
 
             <% if (!locals.loggedin) { %>
-                <a href="/account/login"><button type="button" class="btn btn-primary">Log In / Sign Up</button></a>
+                <a href="/login"><button type="button" class="btn btn-primary">Log In / Sign Up</button></a>
             <% } else { %>
-                <a href="/account/profile"><button type="button" class="btn btn-primary">Profile</button></a>
-                <form action="/account/logout" method="post">
+                <a href="/user"><button type="button" class="btn btn-primary">Profile</button></a>
+                <form action="/logout" method="post">
                     <button type="submit" class="btn btn-secondary ms-2">Log Out</button>
                 </form>
             <% } %>

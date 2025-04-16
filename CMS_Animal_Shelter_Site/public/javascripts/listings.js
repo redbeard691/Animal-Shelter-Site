@@ -11,6 +11,8 @@ async function getResults() {
     const response = await fetch(url)
     const json = await response.json()
 
+    console.log(json)
+
     // Add results to page
     const resultsDiv = document.getElementById("results-list")
     resultsDiv.innerHTML = ""
@@ -31,9 +33,9 @@ function removeBlankAttributes(obj) {
 
 // TODO: Handle user-uploaded post & profile images. Might require additional fetches?
 function resultJsonToHtml(json) {
-    return `<a class="row border-bottom p-2 m-1 text-decoration-none text-body" href="/posts/${json.id}">
+    return `<a class="row border-bottom p-2 m-1 text-decoration-none text-body" href="/posts/view/${json.id}">
                 <div class="col-auto">
-                    <img src="/images/logo.jpg" height="100px" alt="">
+                    <img src="/images/${json.picture}" height="100px" alt="">
                 </div>
                 <div class="col-auto">
                     <table class="table table-borderless table-sm me-5">
@@ -54,7 +56,7 @@ function resultJsonToHtml(json) {
                 <div class="col p-0"></div>
                 <div class="col-auto row">
                     <div class="col align-content-center">
-                        <img src="/images/Portrait_Placeholder.png" class="img-thumbnail rounded-circle" alt="" height="75px" width="75px">
+                        <img src="/images/${json.User.profilePic}" class="img-thumbnail rounded-circle" alt="" height="75px" width="75px">
                     </div>
                     <div class="col align-content-center">
                         <h6>Posted by</h6>
