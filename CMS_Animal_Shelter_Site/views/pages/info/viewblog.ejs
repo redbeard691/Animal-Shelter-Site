@@ -22,6 +22,11 @@
                 <% } %>
                 </div>
             <div class="card-footer">
+                <% if (locals.currentuser.isadmin) { %>
+                    <form action="/pages/info/deleteblog/<%- blog.slug %>" method="post">
+                        <button class="btn btn-danger mb-2" type="submit">Delete Blog Post</button>
+                    </form>
+                <% } %>
                 <a href="/pages/info/blog" class="btn btn-primary">Back to Blog List</a>
             </div>
         </div>

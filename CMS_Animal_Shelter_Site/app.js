@@ -21,6 +21,7 @@ var blogRouter = require('./routes/info/blog');
 var bulletinRouter = require('./routes/info/bulletins');
 var viewblogRouter = require('./routes/info/viewblog');
 var createblogRouter = require('./routes/info/createblog');
+var deleteblogRouter = require('./routes/info/deleteblog');
 
 var aboutRouter = require('./routes/about');
 var loginRouter = require('./routes/login');
@@ -72,9 +73,8 @@ app.use('/', indexRouter);
 // Info
 app.use('/pages/info/blog',blogRouter);
 app.use('/pages/info/viewblog',viewblogRouter);
-
 app.use('/pages/info/createblog',createblogRouter);
-
+app.use('/pages/info/deleteblog',deleteblogRouter);
 app.use('/pages/info/bulletins',bulletinRouter);
 
 app.use('/about',aboutRouter);
