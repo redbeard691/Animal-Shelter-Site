@@ -1,6 +1,6 @@
 async function getResults() {
     // Fetch from server
-    const url = "/bulletins/search?"
+    const url = "bulletins/search?"
     //console.log(url)
     const response = await fetch(url)
     const json = await response.json()
