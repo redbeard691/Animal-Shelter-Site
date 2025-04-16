@@ -22,7 +22,7 @@
                 <% } %>
                 </div>
             <div class="card-footer">
-                <% if (locals.currentuser.isadmin) { %>
+                <% if (locals.currentuser && locals.currentuser.isadmin) { %>
                     <form action="/pages/info/editblog/<%- blog.slug %>" method="get">
                         <button class="btn btn-secondary mb-2" type="submit">Edit Blog Post</button>
                     </form>

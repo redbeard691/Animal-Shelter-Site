@@ -12,6 +12,7 @@ const Shelter = require('./model/Shelter');
 const Message = require('./model/Message');
 const SiteBlogs = require('./model/SiteBlogs');
 const { Post, Tag } = require('./model/Post');
+const Bulletin = require("./model/Bulletin");
 
 
 // Routes ----------------------------------
@@ -33,6 +34,8 @@ var messageRouter = require('./routes/messages');
 var postRouter = require('./routes/posts');
 var adminRouter = require('./routes/admin');
 var sheltersRouter = require('./routes/shelters');
+
+var bulletinRouter = require('./routes/info/bulletins')
 
 
 var app = express();
@@ -87,7 +90,8 @@ app.use('/user', userRouter);
 app.use('/messages', messageRouter);
 app.use('/posts', postRouter);
 app.use('/admin', adminRouter);
-app.use('/shelters', sheltersRouter);
+
+app.use('/pages/info/bulletins', bulletinRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -221,6 +225,15 @@ async function setup() {
     featuredImage: "/images/blog_uploads/blog4.jpg"
   })
   console.log("Created test blog.")
+
+  await Bulletin.create({
+    title: "Food recall on XYZ Kibble",
+    contents: "XYZ kibble has been recalled due to salmonella contamination. You are advised to throw out any food with a best by date of 6/20"
+  })
+  await Bulletin.create({
+    title: " ABC branded rope toy recalled",
+    contents: "ABC branded rope toys have been recalled due to unsafe chemicals in the cotton rope."
+  })
 
 }
 
