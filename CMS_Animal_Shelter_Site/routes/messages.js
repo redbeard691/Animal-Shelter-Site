@@ -3,67 +3,63 @@ var router = express.Router();
 var Message = require('../model/Message');
 var User = require('../model/User');
 
-router.get('/compose', (req, res, next) => {
-    if (req.session.loggedin) {
-        if (req.query.recipient) {
-            res.locals.recipient = req.query.recipient
-        }
-        
-        res.render('pages/messages/compose')
+router.use('*', (req, res, next) => {
+    if (req.session.loggedin){
+        next()
     } else {
-        res.redirect('/account/login')
+        res.redirect('/login')
     }
 })
 
-router.post('/compose', async (req, res, next) => {
-    if (req.session.loggedin) {
-        let success = false
-        let result = ""
-
-        try {
-            await Message.create({
-                sender: req.session.user.username,
-                recipient: req.body.recipient,
-                subject: req.body.subject,
-                contents: req.body.contents
-            })
-
-            success = true
-            result= "Message sent successfully!"
-        } catch (error) {
-            success = false
-            result = `Message could not be sent: ${error.message}`
-        }
-        
-        res.redirect('/messages/inbox')
-    } else {
-        res.redirect('/account/login')
-    }
+router.get('/', (req, res, next) => {
+    res.redirect('/messages/inbox')
 })
 
 router.get('/inbox', async (req, res, next) => {
-    if (req.session.loggedin) {
-        res.locals.messages = await Message.findAll({
-            where: { recipient: req.session.user.username }
+    res.locals.messages = await Message.findAll({
+        where: { recipient: req.session.user.username }
+    })
+
+    res.render('pages/messages/inbox')
+})
+
+router.get('/compose', (req, res, next) => {
+    if (req.query.recipient) {
+        res.locals.recipient = req.query.recipient
+    }
+    
+    res.render('pages/messages/compose')
+})
+
+router.post('/compose', async (req, res, next) => {
+    let success = false
+    let result = ""
+
+    try {
+        await Message.create({
+            sender: req.session.user.username,
+            recipient: req.body.recipient,
+            subject: req.body.subject,
+            contents: req.body.contents
         })
 
-        res.render('pages/messages/inbox')
-    } else {
-        res.redirect('/account/login')
+        success = true
+        result= "Message sent successfully!"
+    } catch (error) {
+        success = false
+        result = `Message could not be sent: ${error.message}`
     }
+    
+    res.redirect('/messages/inbox')
 })
 
 router.get('/:messageId', async (req, res, next) => {
-    if (req.session.loggedin) {
-        const message = await Message.findByPk(req.params.messageId)
+    const message = await Message.findByPk(req.params.messageId)
 
-        if (message.recipient === req.session.user.username) {
-            res.send(message)
-        } else {
-            res.status(403).send('You do not have permission to view this content.')
-        }
+    if (message.recipient === req.session.user.username) {
+        res.send(message)
     } else {
-        res.status(401).send('You must be authenticated to access this content.')
+        res.status(403).send('You do not have permission to view this content.')
     }
 }) 
 

@@ -8,6 +8,7 @@ const sequelize = require('./db');
 
 // Models
 const User = require('./model/User');
+const Shelter = require('./model/Shelter');
 const Message = require('./model/Message');
 const SiteBlogs = require('./model/SiteBlogs');
 const { Post, Tag } = require('./model/Post');
@@ -15,22 +16,21 @@ const { Post, Tag } = require('./model/Post');
 
 // Routes ----------------------------------
 var indexRouter = require('./routes/index');
-var headerRouter = require('./routes/header');
 // Info Routes
-var aboutRouter = require('./routes/info/about');
 var blogRouter = require('./routes/info/blog');
 var bulletinRouter = require('./routes/info/bulletins');
-var searchRouter = require('./routes/info/search');
-var shelterRouter = require('./routes/info/shelter');
-var sheltermapRouter = require('./routes/info/sheltermap');
 var viewblogRouter = require('./routes/info/viewblog');
-
 var createblogRouter = require('./routes/info/createblog');
 
-var accountRouter = require('./routes/account');
+var aboutRouter = require('./routes/about');
+var loginRouter = require('./routes/login');
+var signupRouter = require('./routes/signup');
+var logoutRouter = require('./routes/logout');
+var userRouter = require('./routes/user');
 var messageRouter = require('./routes/messages');
 var postRouter = require('./routes/posts');
 var adminRouter = require('./routes/admin');
+var sheltersRouter = require('./routes/shelters');
 
 
 var app = express();
@@ -69,29 +69,28 @@ app.use((req, res, next) => {
 // Routers
 app.use('/', indexRouter);
 
-app.use('/template/header',headerRouter);
 // Info
-app.use('/pages/info/about',aboutRouter);
 app.use('/pages/info/blog',blogRouter);
 app.use('/pages/info/viewblog',viewblogRouter);
 
 app.use('/pages/info/createblog',createblogRouter);
 
 app.use('/pages/info/bulletins',bulletinRouter);
-app.use('/pages/info/search',searchRouter);
-app.use('/pages/info/shelter',shelterRouter);
-app.use('/pages/info/sheltermap',sheltermapRouter);
 
-app.use('/account', accountRouter);
+app.use('/about',aboutRouter);
+app.use('/login', loginRouter);
+app.use('/signup', signupRouter);
+app.use('/logout', logoutRouter);
+app.use('/user', userRouter);
 app.use('/messages', messageRouter);
 app.use('/posts', postRouter);
 app.use('/admin', adminRouter);
+app.use('/shelters', sheltersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 
 
 // error handler
@@ -105,13 +104,35 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+// Setup function for test data.
 async function setup() {
-  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true });
+  await User.create({ username: "admin", password: "1234", email:"admin@example.com", isadmin: true});
   console.log("Created admin account.")
+
   await User.create({ username: "test", password: "test", email:"test@example.com"})
   console.log("Created test user account.")
   await User.create({ username: "nick", password: "1234", email:"nick@example.com"})
   console.log("Created test user account.")
+
+  await User.create(
+    {
+      username: "shelter",
+      password: "shelter",
+      email:"shelter@example.com",
+      isshelter: true,
+      Shelter: {
+        address: "111 SW Road, Everett, WA",
+        animals: "Dogs, cats, reptiles",
+        about: "Our shelter provides top care to a number of different animals.",
+        website: "example.com"
+      }
+    },
+    {
+      include: [Shelter]
+    }
+  )
+  console.log("Created test shelter account.")
 
   await Message.create({ sender: "test", recipient: "admin", subject: "Some subject", contents: "The message contents go here if they are not too long."})
   console.log("Created test message.")
@@ -155,7 +176,7 @@ async function setup() {
     city: "A City",
     state: "A State",
     description: "Admin post description",
-    Tags: [{ name: "tag1" }, { name: "brown" }, { name: "lab" }]
+    Tags: [{ name: "tag1" }, { name: "black" }, { name: "lab" }]
   },
   {
     include: [Tag]

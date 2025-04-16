@@ -1,0 +1,2 @@
+This file is a placeholder so that git will create the uploads folder when cloning the repo.
+Future: Replace this with a check in app.js that creates the directory if it does not exist.
